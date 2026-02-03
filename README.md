@@ -1,36 +1,40 @@
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-This repository presents a secure system for parliamentary seat apportionment using the Huntington-Hill method, a fair approach rooted in social choice theory. It combines heuristic fairness criteria (like monotonicity and neutrality) with AES-256 encryption to prevent ballot tampering, making it ideal for large-scale voting systems (e.g., 200,000 ballots). The project demonstrates algorithmic equity and cryptographic security for educational and portfolio purposes.Project Showcase  <!-- اگر GIF یا تصویری داری، جایگزین کن؛ اگر نه، یک اسکرین‌شات از کد یا خروجی اضافه کن -->FeaturesHuntington-Hill Apportionment MethodAllocates seats based on vote shares using geometric mean for priority.
-Avoids paradoxes (e.g., Alabama paradox in Hamilton's method).
-Satisfies fairness criteria: monotonicity, neutrality, and relative inequality reduction.
-Example: For 27 seats and one-third population share, fair allocation (~9 seats) without bias.
-Supports CSV input for large datasets.
+# Secure Parliamentary Seat Apportionment System
 
-AES-256 Encryption for SecurityEncrypts vote data with 32-byte keys and random IVs.
-Uses CBC mode with PKCS7 padding for brute-force resistance.
-Integrates with apportionment: Encrypt ballots, store securely, decrypt for trusted computation.
-Handles large voter bases (100,000–200,000) to prevent cheating.
+A fair and tamper-resistant system for allocating parliamentary seats using the **Huntington-Hill method** (also known as the method of equal proportions). It combines mathematically sound apportionment with **AES-256-CBC encryption** to protect vote data, suitable for large-scale elections (e.g., 200,000+ ballots).
 
-Heuristics DemonstrationCompares with other methods (Jefferson, Hamilton, Webster) to highlight superiority in social choice.
-Tests edge cases: Vote share changes, seat increases, no paradoxes.
-Addresses Arrow's impossibility theorem trade-offs in apportionment.
+Ideal for educational demonstrations of social choice theory, algorithmic fairness, and cryptographic security.
 
-Additional ToolsReads vote shares from CSV files.
-Generates secure keys with os.urandom.
-Outputs results as dictionaries for easy integration.
+## Key Features
 
-Emergency Threshold HandlingSupports one-third quorum for sessions (e.g., national security), maintaining fairness.
+- **Huntington-Hill Apportionment**
+  - Uses geometric mean priority for seat allocation.
+  - Avoids paradoxes (e.g., Alabama paradox).
+  - Satisfies house monotonicity, neutrality, and reduces relative inequality.
+  - Supports emergency one-third quorum thresholds.
+  - Compares favorably with Jefferson, Hamilton, and Webster methods.
 
-InstallationTo run this system locally:bash
+- **AES-256-CBC Security**
+  - Encrypts vote shares/ballots with 32-byte keys and random IVs.
+  - PKCS7 padding and brute-force-resistant design.
+  - Enables secure storage/transmission; decrypt only for trusted computation.
 
-# Clone the repository
+- **Practical Tools**
+  - CSV input for large vote datasets.
+  - Secure key generation (`os.urandom`).
+  - Output as dictionaries for easy integration.
+  - Comprehensive pytest suite (round-trip encryption, edge cases, paradoxes).
+
+## Installation
+
+```bash
 git clone https://github.com/AlborzNazari/Secure-Apportionment-System.git
 cd Secure-Apportionment-System
+pip install -r requirements.txt   # Includes cryptography and any others
 
-# Install Python dependencies
-pip install -r requirements.txt
 
-# Install system dependencies (Ubuntu/Debian, if needed for crypto or CSV)
-sudo apt update && sudo apt install python3-pip
+This version is focused, scannable, and professional. It integrates the encryption naturally without duplicating content. If you want to keep more technical depth on the crypto module, add a separate `docs/ENCRYPTION.md` and link to it.
 
+Let me know if you'd like further tweaks!
