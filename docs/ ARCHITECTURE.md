@@ -19,6 +19,7 @@ The architecture follows a linear pipeline with clear separation of concerns:
 
 ## High-Level Flow Diagram
 
+```mermaid
 graph TD
     subgraph Input
         A["Vote Data Source\n(CSV file with party votes)"] --> B["Load & Validate Data\n(src/io.py)"]
@@ -52,7 +53,3 @@ graph TD
     style A fill:#e1f5fe
     style K fill:#e8f5e8
     style F fill:#fff3e0
-
-##    Fix Mermaid diagram syntax for GitHub rendering
-
-
