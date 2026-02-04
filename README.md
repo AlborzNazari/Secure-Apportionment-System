@@ -36,3 +36,9 @@ cd Secure-Apportionment-System
 python -m venv venv                  # Optional: create virtual environment
 source venv/bin/activate             # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
+
+
+
+pip install -r requirements.txt
+
+
