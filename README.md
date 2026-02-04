@@ -39,6 +39,8 @@ pip install -r requirements.txt
 
 
 
-pip install -r requirements.txt
+
+pip install -r requirements.txt      # ← This installs cryptography + pytest
+pytest                               # Now tests run perfectly
 
 
