@@ -19,37 +19,40 @@ The architecture follows a linear pipeline with clear separation of concerns:
 
 ## High-Level Flow Diagram
 
-```mermaid
 graph TD
     subgraph Input
-        A[Vote Data Source<br>(CSV file with party votes)] --> B[Load & Validate Data<br>(src/io.py)]
+        A["Vote Data Source\n(CSV file with party votes)"] --> B["Load & Validate Data\n(src/io.py)"]
     end
 
     subgraph Encryption
-        B --> C[Generate Key & IV<br>(src/encryption.py)]
-        C --> D[Encrypt Vote Totals<br>AES-256-CBC + PKCS7]
-        D --> E[Serialized Encrypted Payload<br>(Base64 or file)]
+        B --> C["Generate Key & IV\n(src/encryption.py)"]
+        C --> D["Encrypt Vote Totals\nAES-256-CBC + PKCS7"]
+        D --> E["Serialized Encrypted Payload\n(Base64 or file)"]
     end
 
-    subgraph Secure Handling
-        E --> F[Store / Transmit Encrypted Data<br>(File, DB, Network)]
+    subgraph "Secure Handling"
+        E --> F["Store / Transmit Encrypted Data\n(File, DB, Network)"]
     end
 
-    subgraph Decryption & Processing
-        F --> G[Decrypt Payload<br>(Requires secret key)]
-        G --> H[Reconstruct Vote Totals<br>(Plaintext dictionary)]
+    subgraph "Decryption & Processing"
+        F --> G["Decrypt Payload\n(Requires secret key)"]
+        G --> H["Reconstruct Vote Totals\n(Plaintext dictionary)"]
     end
 
     subgraph Apportionment
-        H --> I[Apply Huntington-Hill Method<br>(src/apportionment.py)<br>Iterative priority calculation]
-        I --> J[Avoid paradoxes via<br>mathematical guarantees + tests]
+        H --> I["Apply Huntington-Hill Method\n(src/apportionment.py)\nIterative priority calculation"]
+        I --> J["Avoid paradoxes via\nmathematical guarantees + tests"]
     end
 
     subgraph Output
-        J --> K[Seat Allocation Results<br>(JSON, console, or CSV)]
-        K --> L[Optional: Verification Report<br>(Re-run on known data)]
+        J --> K["Seat Allocation Results\n(JSON, console, or CSV)"]
+        K --> L["Optional: Verification Report\n(Re-run on known data)"]
     end
 
     style A fill:#e1f5fe
     style K fill:#e8f5e8
     style F fill:#fff3e0
+
+##    Fix Mermaid diagram syntax for GitHub rendering
+
+
