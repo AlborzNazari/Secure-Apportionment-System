@@ -1,0 +1,73 @@
+# Python-specific
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+.installed.cfg
+*.egg
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments & dependency managers
+.env/
+venv/
+env/
+.venv/
+.env
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Testing & coverage
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+nosetests.xml
+*.cover
+.hypothesis/
+
+# Build & distribution
+build/
+dist/
+*.manifest
+*.spec
+sdist/
+wheels/
+*.whl
+
+# Jupyter / notebooks (if you ever use them)
+.ipynb_checkpoints/
+*.ipynb_checkpoints/
+
+# IDE / editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*~
+.DS_Store
+Thumbs.db
+
+# Logs & databases
+*.log
+*.sql
+*.sqlite
+*.sqlite3
+
+# Misc
+*.bak
+*.backup
+*.tmp
+
+# requirements.txt     # usually committed
+# README.md            # definitely committed
+# src/                 # your code
+# tests/               # your tests
+# docs/                # documentation
+# .github/             # workflows
+# ──────────────────────────────────────────────
+touch.gitignore
