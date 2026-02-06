@@ -10,6 +10,10 @@ A fair and tamper-resistant system for allocating parliamentary seats using the 
 
 Suitable for large-scale elections (200,000+ ballots) and educational demonstrations of algorithmic fairness, social choice theory, and applied cryptography.
 
+## Overview
+
+Voting systems and decision-making theory need to be based on fair criteria. Arrow’s impossibility theorem demonstrates that no voting system can be completely fair if it has more than two candidates. We went over very classic methods: Major Method, Plurality, Plurality run-off, Instant run-off (IRV), sequential run-off, and pairwise comparison. They all can cause Pareto paradox versus Pareto efficiency or be relevant to other irrelevant alternatives and can alter the result. For example, one candidate’s resignation may cause another candidate to directly win, or if all voters prefer A over B, the latter should not get outdone by any chance. These laws create fairness criteria in real cases of parliaments or presidential candidacy. We see probabilistic strategic voting, pinpointing the weakness of each old-fashioned method to prevent unwanted outcomes. On topics like social choice theory, direct study of psychology as well as statistical contemplation is essential to understand how individual or collective choice can affect the result. 
+
 ## Key Features
 
 - **Huntington-Hill Apportionment**
