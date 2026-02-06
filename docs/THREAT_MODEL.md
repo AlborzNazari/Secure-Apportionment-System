@@ -1,5 +1,4 @@
 
-```markdown
 
 # Threat Model
 
