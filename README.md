@@ -32,6 +32,11 @@ Voting systems and decision-making theory need to be based on fair criteria. Arr
   - Comprehensive pytest suite (encryption integrity, edge cases, mathematical correctness).
   - Pure Python, cross-platform (Windows/Linux).
 
+## Community
+
+- [Code of Conduct](./CODE_OF_CONDUCT.md)
+- [Contributing Guidelines](./CONTRIBUTING.md)
+
 ## Quick Start
 
 ```bash
