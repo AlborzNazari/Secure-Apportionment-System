@@ -34,8 +34,8 @@ Voting systems and decision-making theory need to be based on fair criteria. Arr
 
 ## Community
 
-- [Code of Conduct](./CODE_OF_CONDUCT.md)
-- [Contributing Guidelines](./CONTRIBUTING.md)
+- [Code of Conduct](./docs/CODE_OF_CONDUCT.md)
+- [Contributing Guidelines](./docs/CONTRIBUTING.md)
 
 ## Quick Start
 
