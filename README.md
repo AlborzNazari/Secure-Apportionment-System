@@ -4,7 +4,8 @@
 <!-- ![Tests](https://github.com/AlborzNazari/Secure-Apportionment-System/actions/workflows/ci.yml/badge.svg) -->
 <!-- ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen) -->
 
-<img width="1024" height="1536" alt="Theorem 1 1 The Building Block Theorem  Every positive integer can be written as a product of zero or more primes  (1)" src="https://github.com/user-attachments/assets/2d6ba598-4777-4ed1-8d73-4105cc224875" />
+/>
+<img width="1024" height="1536" alt="Theorem 1 1 The Building Block Theorem  Every positive integer can be written as a product of zero or more primes  (1)" src="https://github.com/user-attachments/assets/0db338aa-c177-423f-9574-7bb5175a00e4" />
 
 # Secure Parliamentary Seat Apportionment System
 
@@ -47,6 +48,8 @@ cd Secure-Apportionment-System
 python -m venv venv                  # Optional: create virtual environment
 source venv/bin/activate             # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
+
+<img width="1024" height="1536" alt="Theorem 1 1 The Building Block Theorem  Every positive integer can be written as a product of zero or more primes" src="https://github.com/user-attachments/assets/76c9aa76-876f-4f66-84cd-a256cc70411d" />
 
 
 
