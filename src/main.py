@@ -1,32 +1,12 @@
 import argparse
 import json
 import os
-from cryptography.cipher import Cipher, algorithms, modes
-from cryptography.padding import PKCS7
+from cryptography.cipher import Cipher, algorithms, modes  # If not in aes-256.py
+from cryptography.padding import PKCS7  # If not in aes-256.py
+
 from src.apportionment import huntington_hill_apportionment 
 from src.io import load_votes_from_csv
-
-def generate_key():
-    return os.urandom(32)
-
-def encrypt_data(data, key):
-    iv = os.urandom(16)
-    cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
-    encryptor = cipher.encryptor()
-    padder = PKCS7(128).padder()
-    padded_data = padder.update(data) + padder.finalize()
-    encrypted = encryptor.update(padded_data) + encryptor.finalize()
-    return iv + encrypted
-
-def decrypt_data(encrypted_data, key):
-    iv = encrypted_data[:16]
-    encrypted = encrypted_data[16:]
-    cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
-    decryptor = cipher.decryptor()
-    decrypted_padded = decryptor.update(encrypted) + decryptor.finalize()
-    unpadder = PKCS7(128).unpadder()
-    data = unpadder.update(decrypted_padded) + unpadder.finalize()
-    return data
+from aes-256 import encrypt_data, decrypt_data, generate_key  # Add this import
 
 def main():
     parser = argparse.ArgumentParser(description="Secure Parliamentary Seat Apportionment")
