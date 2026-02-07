@@ -4,7 +4,7 @@
 <!-- ![Tests](https://github.com/AlborzNazari/Secure-Apportionment-System/actions/workflows/ci.yml/badge.svg) -->
 <!-- ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen) -->
 
-/>
+
 <img width="1024" height="1536" alt="Theorem 1 1 The Building Block Theorem  Every positive integer can be written as a product of zero or more primes  (1)" src="https://github.com/user-attachments/assets/0db338aa-c177-423f-9574-7bb5175a00e4" />
 
 # Secure Parliamentary Seat Apportionment System
