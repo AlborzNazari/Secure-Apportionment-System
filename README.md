@@ -4,8 +4,8 @@
 <!-- ![Tests](https://github.com/AlborzNazari/Secure-Apportionment-System/actions/workflows/ci.yml/badge.svg) -->
 <!-- ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen) -->
 
+<img width="1024" height="1536" alt="Theorem 1 1 The Building Block Theorem  Every positive integer can be written as a product of zero or more primes" src="https://github.com/user-attachments/assets/46c06707-cca5-4040-9c95-ef6e5ede26d8" />
 
-<img width="1024" height="1536" alt="Theorem 1 1 The Building Block Theorem  Every positive integer can be written as a product of zero or more primes  (1)" src="https://github.com/user-attachments/assets/0db338aa-c177-423f-9574-7bb5175a00e4" />
 
 # Secure Parliamentary Seat Apportionment System
 
@@ -40,6 +40,9 @@ Voting systems and decision-making theory need to be based on fair criteria. Arr
 - [Code of Conduct](./docs/CODE_OF_CONDUCT.md)
 - [Contributing Guidelines](./docs/CONTRIBUTING.md)
 
+<img width="1024" height="1536" alt="Theorem 1 1 The Building Block Theorem  Every positive integer can be written as a product of zero or more primes  (1)" src="https://github.com/user-attachments/assets/6d3ff8cc-c0db-419d-aa7d-a274667306c9" />
+
+
 ## Quick Start
 
 ```bash
@@ -49,7 +52,7 @@ python -m venv venv                  # Optional: create virtual environment
 source venv/bin/activate             # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
-<img width="1024" height="1536" alt="Theorem 1 1 The Building Block Theorem  Every positive integer can be written as a product of zero or more primes" src="https://github.com/user-attachments/assets/76c9aa76-876f-4f66-84cd-a256cc70411d" />
+
 
 
 
