@@ -24,4 +24,4 @@ Violations will be addressed promptly and fairly.
 
 ---
 
-**Questions?** Open an issue or email: alborz.nazari@email.com
+**Questions?** Open an issue or email: leftmountains@email.com
