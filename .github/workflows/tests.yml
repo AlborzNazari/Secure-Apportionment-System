@@ -19,10 +19,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Run tests
-      run: pytest tests/ -v
+    - name: Run pytest
+      run: |
+        cd /home/runner/work/Secure-Apportionment-System/Secure-Apportionment-System
+        python -m pytest tests/ -v
     
-    - name: Check code quality
+    - name: Code quality check
       run: |
         pip install pylint
-        pylint src/ --disable=all --enable=E,F || true
+        pylint src/ --disable=all --enable=E,F --errors-only || true
