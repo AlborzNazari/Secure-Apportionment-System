@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <h1>Fair Parliamentary Seat Allocation</h1>
+    <p>Using the mathematically proven Huntington-Hill method with AES-256 encryption</p>
+</section>
+
+<section class="upload-section">
+    <div class="card">
+        <h2>📤 Upload Vote Data</h2>
+        
+        <form id="uploadForm">
+            <div class="form-group">
+                <label for="csvFile">CSV File (Party, Votes):</label>
+                <input type="file" id="csvFile" name="file" accept=".csv" required>
+                <small>Format: Party Name, Number of Votes</small>
+            </div>
+
+            <div class="form-group">
+                <label for="totalSeats">Total Seats:</label>
+                <input type="number" id="totalSeats" name="seats" min="1" max="1000" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">🔄 Calculate Allocation</button>
+        </form>
+
+        <div id="loadingSpinner" class="hidden">
+            <p>⏳ Processing...</p>
+        </div>
+    </div>
+</section>
+
+<section id="resultsSection" class="hidden">
+    <div class="card">
+        <h2>📊 Results</h2>
+        
+        <div class="results-grid">
+            <div id="resultsTable"></div>
+            <div id="resultsChart"></div>
+        </div>
+
+        <div class="comparison">
+            <h3>Vote-to-Seat Fairness</h3>
+            <table id="fairnessTable">
+                <thead>
+                    <tr>
+                        <th>Party</th>
+                        <th>Votes (%)</th>
+                        <th>Seats (%)</th>
+                        <th>Difference</th>
+                    </tr>
+                </thead>
+                <tbody id="fairnessBody"></tbody>
+            </table>
+        </div>
+
+        <button id="downloadBtn" class="btn btn-secondary">📥 Download Results</button>
+    </div>
+</section>
+
+<section id="about" class="info-section">
+    <div class="card">
+        <h2>ℹ️ About Huntington-Hill Method</h2>
+        <p>
+            The Huntington-Hill method (also called the method of equal proportions) is used to 
+            allocate seats fairly among parties based on vote counts. It:
+        </p>
+        <ul>
+            <li>✅ Avoids the Alabama Paradox</li>
+            <li>✅ Minimizes relative inequality</li>
+            <li>✅ Satisfies house monotonicity</li>
+            <li>✅ Used by the U.S. House of Representatives</li>
+        </ul>
+    </div>
+</section>
+{% endblock %}
