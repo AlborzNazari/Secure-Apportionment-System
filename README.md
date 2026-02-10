@@ -11,7 +11,6 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Tests](https://github.com/AlborzNazari/Secure-Apportionment-System/actions/workflows/tests.yml/badge.svg)
 
-<img width="524" height="786" alt="523" src="https://github.com/user-attachments/assets/2a98c912-5a9d-43a3-bd09-161293431939" />
 
 # 🏛️ Secure Parliamentary Seat Apportionment System
 
