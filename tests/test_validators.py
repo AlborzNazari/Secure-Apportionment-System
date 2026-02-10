@@ -13,7 +13,7 @@ def test_empty_data():
     """Test validation with empty data"""
     is_valid, msg = validate_csv_data({})
     assert not is_valid
-    assert "empty" in msg.lower()
+    assert "no data provided" in msg.lower()
 
 def test_negative_votes():
     """Test validation with negative votes"""
