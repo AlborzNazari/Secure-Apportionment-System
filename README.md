@@ -1,15 +1,12 @@
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Tests](https://github.com/AlborzNazari/Secure-Apportionment-System/actions/workflows/tests.yml/badge.svg)
 <!-- Add these once set up -->
 <!-- ![Tests](https://github.com/AlborzNazari/Secure-Apportionment-System/actions/workflows/ci.yml/badge.svg) -->
 <!-- ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen) -->
 
 <img width="524" height="786" alt="523" src="https://github.com/user-attachments/assets/2a98c912-5a9d-43a3-bd09-161293431939" />
 
-
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![Tests](https://github.com/AlborzNazari/Secure-Apportionment-System/actions/workflows/tests.yml/badge.svg)
 
 
 # 🏛️ Secure Parliamentary Seat Apportionment System
