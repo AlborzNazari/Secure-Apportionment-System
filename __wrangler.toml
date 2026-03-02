@@ -1,4 +1,4 @@
-git add wrangler.toml
+git add __wrangler.toml
 git commit -m "fix: add wrangler.toml for static asset deployment"
 git push
 ```
