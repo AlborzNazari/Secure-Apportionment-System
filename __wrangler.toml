@@ -1,8 +1,0 @@
-git add __wrangler.toml
-git commit -m "fix: add wrangler.toml for static asset deployment"
-git push
-```
-
-Then in Cloudflare when you create the application — **only fill in the deploy command as:**
-```
-__wrangler deploy
