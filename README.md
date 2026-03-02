@@ -7,7 +7,7 @@
 
 ## 📄 Medium Article
 Read the full explanation on Medium:  
-[Secure Apportionment Voting System](https://medium.com/@alborznazari4/secure-apportionment-voting-system)
+[https://medium.com/@alborznazari4/secure-apportionment-voting-system-v0-1-0-983054d369d5)
 
 
 <img width="524" height="786" alt="523" src="https://github.com/user-attachments/assets/2a98c912-5a9d-43a3-bd09-161293431939" />
