@@ -5,7 +5,7 @@
 <!-- ![Tests](https://github.com/AlborzNazari/Secure-Apportionment-System/actions/workflows/ci.yml/badge.svg) -->
 <!-- ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen) -->
 
-[![Read on Medium](https://img.shields.io/badge/Medium-Read%20Article-black?logo=medium)](https://medium.com/@alborznazari4/secure-apportionment-voting-system)
+[![Read on Medium](https://img.shields.io/badge/Medium-Read%20Article-black?logo=medium)](https://medium.com/@alborznazari4/secure-apportionment-voting-system-v0-1-0-983054d369d5)
 
 
 
