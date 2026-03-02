@@ -5,6 +5,11 @@
 <!-- ![Tests](https://github.com/AlborzNazari/Secure-Apportionment-System/actions/workflows/ci.yml/badge.svg) -->
 <!-- ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen) -->
 
+## 📄 Medium Article
+Read the full explanation on Medium:  
+[Secure Apportionment Voting System](https://medium.com/@alborznazari4/secure-apportionment-voting-system)
+
+
 <img width="524" height="786" alt="523" src="https://github.com/user-attachments/assets/2a98c912-5a9d-43a3-bd09-161293431939" />
 
 
