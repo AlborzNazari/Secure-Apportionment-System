@@ -7,7 +7,8 @@
 
 [![Read on Medium](https://img.shields.io/badge/Medium-Read%20Article-black?logo=medium)](https://medium.com/@alborznazari4/secure-apportionment-voting-system-v0-1-0-983054d369d5)
 
-🔗 **Live Demo:** https://e3977ba5.secure-apportionment-system.pages.dev/
+🔗 **Live Demo:** [Secure Apportionment System](https://secure-apportionment-system.pages.dev/)
+
 
 
 <img width="524" height="786" alt="523" src="https://github.com/user-attachments/assets/2a98c912-5a9d-43a3-bd09-161293431939" />
