@@ -133,10 +133,7 @@ Voting systems and decision-making theory need to be based on fair criteria. Arr
 ## Community
 
 - [Code of Conduct](./docs/CODE_OF_CONDUCT.md)
-- [Contributing Guidelines](./docs/CONTRIBUTING.md)
-
-<img width="524" height="786" alt="524" src="https://github.com/user-attachments/assets/2bde949c-e5b6-4671-8039-8d194b2b662b" />
-
+- [Contributing Guidelines](./docs/CONTRIBUTING.md
 
 ## Quick Start
 
@@ -145,14 +142,6 @@ git clone https://github.com/AlborzNazari/Secure-Apportionment-System.git
 cd Secure-Apportionment-System
 python -m venv venv                  # Optional: create virtual environment
 source venv/bin/activate             # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
-
-
-
-
-
-
-pip install -r requirements.txt      # ← This installs cryptography + pytest
-pytest                               # Now tests run perfectly
+pip install -r requirements.txt      # Now tests run perfectly
 
 
