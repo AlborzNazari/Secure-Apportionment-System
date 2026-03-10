@@ -279,8 +279,6 @@ ENCRYPTION_KEY=your-random-secret-key-here
 
 See [LICENSE](LICENSE) for details.
 
-<img width="524" height="786" alt="524" src="https://github.com/user-attachments/assets/2bde949c-e5b6-4671-8039-8d194b2b662b" />
-
 
 <img width="1024" height="1536" alt="Secure-Apportionment-System" src="https://github.com/user-attachments/assets/17a2c0b8-9294-466b-916b-d6557650d319" />
 
