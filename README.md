@@ -55,8 +55,8 @@ Secure-Apportionment-System/
 
 🔗 **Visual Doc** [Secure Apportionment System](https://secure-apportionment-system.pages.dev/)
 
+<img width="1024" height="1536" alt="Secure-Apportionment-System" src="https://github.com/user-attachments/assets/17a2c0b8-9294-466b-916b-d6557650d319" />
 
-<img width="524" height="786" alt="523" src="https://github.com/user-attachments/assets/2a98c912-5a9d-43a3-bd09-161293431939" 
 
 
 ## Requirements
