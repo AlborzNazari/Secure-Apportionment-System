@@ -1,77 +1,137 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <section class="hero">
-    <h1>Fair Parliamentary Seat Allocation</h1>
-    <p>Using the mathematically proven Huntington-Hill method with AES-256 encryption</p>
-</section>
-
-<section class="upload-section">
-    <div class="card">
-        <h2>📤 Upload Vote Data</h2>
-        
-        <form id="uploadForm">
-            <div class="form-group">
-                <label for="csvFile">CSV File (Party, Votes):</label>
-                <input type="file" id="csvFile" name="file" accept=".csv" required>
-                <small>Format: Party Name, Number of Votes</small>
-            </div>
-
-            <div class="form-group">
-                <label for="totalSeats">Total Seats:</label>
-                <input type="number" id="totalSeats" name="seats" min="1" max="1000" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary">🔄 Calculate Allocation</button>
-        </form>
-
-        <div id="loadingSpinner" class="hidden">
-            <p>⏳ Processing...</p>
-        </div>
+    <div class="hero-tag">SECURE · TRANSPARENT · MATHEMATICALLY PROVEN</div>
+    <h1 class="hero-title">Parliamentary<br><span class="hero-accent">Seat Allocation</span></h1>
+    <p class="hero-sub">Huntington-Hill method with AES-256 encryption. Upload vote data, get fair results instantly.</p>
+    <div class="hero-stats">
+        <div class="stat"><span class="stat-val">AES-256</span><span class="stat-label">Encryption</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-val">H-H</span><span class="stat-label">Algorithm</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-val">∞</span><span class="stat-label">Parties</span></div>
     </div>
 </section>
 
-<section id="resultsSection" class="hidden">
-    <div class="card">
-        <h2>📊 Results</h2>
-        
-        <div class="results-grid">
-            <div id="resultsTable"></div>
-            <div id="resultsChart"></div>
+<div class="main-grid">
+
+    <!-- Left: Upload Panel -->
+    <section class="panel panel--upload">
+        <div class="panel-header">
+            <span class="panel-number">01</span>
+            <h2>Upload Vote Data</h2>
         </div>
 
-        <div class="comparison">
-            <h3>Vote-to-Seat Fairness</h3>
-            <table id="fairnessTable">
+        <form id="uploadForm">
+            <div class="form-group">
+                <label>CSV File</label>
+                <div class="file-drop" id="fileDrop">
+                    <div class="file-drop-icon">📂</div>
+                    <div class="file-drop-text">Drop your CSV here or <span class="file-browse">browse</span></div>
+                    <div class="file-drop-hint">Format: Group, Votes (one per line)</div>
+                    <input type="file" id="csvFile" name="file" accept=".csv" required>
+                </div>
+                <div id="fileSelected" class="file-selected hidden"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Total Seats to Allocate</label>
+                <div class="number-input-wrap">
+                    <button type="button" class="num-btn" id="decreaseBtn">−</button>
+                    <input type="number" id="totalSeats" name="seats" min="1" max="1000" value="100" required>
+                    <button type="button" class="num-btn" id="increaseBtn">+</button>
+                </div>
+            </div>
+
+            <div class="csv-preview-section hidden" id="csvPreview">
+                <label>Data Preview</label>
+                <div class="csv-preview-table" id="csvPreviewTable"></div>
+            </div>
+
+            <button type="submit" class="btn-calculate" id="submitBtn">
+                <span class="btn-text">Calculate Allocation</span>
+                <span class="btn-icon">→</span>
+            </button>
+        </form>
+
+        <div id="loadingSpinner" class="loading hidden">
+            <div class="loading-bar"><div class="loading-fill"></div></div>
+            <p>Processing with AES-256 encryption…</p>
+        </div>
+
+        <div class="csv-format-hint">
+            <div class="hint-title">CSV Format</div>
+            <pre class="hint-code">Group,Votes
+Party_A,50000
+Party_B,30000
+Party_C,15000</pre>
+        </div>
+    </section>
+
+    <!-- Right: Results Panel -->
+    <section class="panel panel--results hidden" id="resultsSection">
+        <div class="panel-header">
+            <span class="panel-number">02</span>
+            <h2>Allocation Results</h2>
+            <button id="downloadBtn" class="btn-download">↓ CSV</button>
+        </div>
+
+        <div class="results-summary" id="resultsSummary"></div>
+
+        <div class="chart-wrap">
+            <canvas id="resultsChart"></canvas>
+        </div>
+
+        <div class="results-table-wrap">
+            <table class="results-table">
                 <thead>
                     <tr>
                         <th>Party</th>
-                        <th>Votes (%)</th>
-                        <th>Seats (%)</th>
-                        <th>Difference</th>
+                        <th>Votes</th>
+                        <th>Vote %</th>
+                        <th>Seats</th>
+                        <th>Seat %</th>
+                        <th>Δ</th>
                     </tr>
                 </thead>
-                <tbody id="fairnessBody"></tbody>
+                <tbody id="resultsBody"></tbody>
             </table>
         </div>
 
-        <button id="downloadBtn" class="btn btn-secondary">📥 Download Results</button>
+        <div class="encryption-note">
+            <span class="enc-icon">🔒</span>
+            Results encrypted with AES-256-CBC and saved to <code>results.json.enc</code>
+        </div>
+    </section>
+
+</div>
+
+<!-- About Section -->
+<section id="about" class="about-section">
+    <div class="about-grid">
+        <div class="about-text">
+            <div class="panel-number">03</div>
+            <h2>The Huntington-Hill Method</h2>
+            <p>Also called the <em>method of equal proportions</em>, this algorithm minimizes the relative difference in representation between any two parties. It has been used to apportion seats in the U.S. House of Representatives since 1941.</p>
+            <div class="about-props">
+                <div class="prop">✓ Avoids the Alabama Paradox</div>
+                <div class="prop">✓ Minimizes relative inequality</div>
+                <div class="prop">✓ Satisfies house monotonicity</div>
+                <div class="prop">✓ Used by U.S. House of Representatives</div>
+            </div>
+        </div>
+        <div class="about-formula">
+            <div class="formula-label">Priority Formula</div>
+            <div class="formula">P(n) = V / √(n · (n+1))</div>
+            <div class="formula-vars">
+                <div class="var"><code>V</code> = vote count</div>
+                <div class="var"><code>n</code> = current seats held</div>
+                <div class="var"><code>P</code> = priority score</div>
+            </div>
+        </div>
     </div>
 </section>
 
-<section id="about" class="info-section">
-    <div class="card">
-        <h2>ℹ️ About Huntington-Hill Method</h2>
-        <p>
-            The Huntington-Hill method (also called the method of equal proportions) is used to 
-            allocate seats fairly among parties based on vote counts. It:
-        </p>
-        <ul>
-            <li>✅ Avoids the Alabama Paradox</li>
-            <li>✅ Minimizes relative inequality</li>
-            <li>✅ Satisfies house monotonicity</li>
-            <li>✅ Used by the U.S. House of Representatives</li>
-        </ul>
-    </div>
-</section>
 {% endblock %}
