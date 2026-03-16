@@ -4,10 +4,10 @@ AppVersion=0.1.0
 DefaultDirName={pf}\ApportionmentSys
 DefaultGroupName=Apportionment System
 OutputBaseFilename=ApportionmentSys-Setup
-SetupIconFile=icon.ico
+OutputDir=C:\Users\albor\Secure-Apportionment-System\dist
 
 [Files]
-Source: "dist\ApportionmentSys.exe"; DestDir: "{app}"
+Source: "C:\Users\albor\Secure-Apportionment-System\dist\ApportionmentSys.exe"; DestDir: "{app}"
 
 [Icons]
 Name: "{group}\Apportionment System"; Filename: "{app}\ApportionmentSys.exe"
