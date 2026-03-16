@@ -3,8 +3,12 @@ import subprocess
 import os
 import sys
 
-BASE_DIR = os.path.dirname(os.path.abspath(sys.argv[0]))
-EXE = os.path.join(BASE_DIR, "ApportionmentSys.exe")
+if getattr(sys, 'frozen', False):
+    BASE_DIR = sys._MEIPASS
+    EXE = os.path.join(os.path.dirname(sys.executable), "ApportionmentSys.exe")
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    EXE = os.path.join(BASE_DIR, "dist", "ApportionmentSys.exe")
 
 def run_command():
     seats = seats_var.get().strip()
