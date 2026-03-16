@@ -2,6 +2,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![Flask](https://img.shields.io/badge/Flask-3.0.0-lightgrey)
+![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)
 ![Encryption](https://img.shields.io/badge/Encryption-AES--256--CBC-green)
 ![Algorithm](https://img.shields.io/badge/Algorithm-Huntington--Hill-orange)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
@@ -21,6 +22,11 @@ This system takes a CSV file of political parties and their vote counts, then fa
 
 ```
 Secure-Apportionment-System/
+├── Dockerfile               # Multi-stage Docker build
+├── docker-compose.yml       # Local dev orchestration
+├── .dockerignore            # Excludes secrets and artifacts from image
+├── .env.example             # Environment variable template (commit this)
+├── .env                     # Your local secrets (never commit)
 ├── src/
 │   ├── main.py              # CLI entry point with AES-256 encryption
 │   ├── app.py               # Flask web application
@@ -134,7 +140,58 @@ Set-Content -Path "sample_data.csv" -Value "Group,Votes`nParty_A,50000`nParty_B,
 
 ## Running the Application
 
-### Option 1 — Command Line (CLI)
+> **Recommended:** Use Docker (Option 1) — it eliminates all environment setup, works identically on Windows, macOS, and Linux, and keeps your encryption key out of the project directory.
+
+### Option 1 — Docker (Recommended)
+
+**Prerequisites:** [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
+
+**Step 1 — Clone and enter the project:**
+```bash
+git clone https://github.com/AlborzNazari/Secure-Apportionment-System.git
+cd Secure-Apportionment-System
+```
+
+**Step 2 — Create your environment file:**
+```bash
+cp .env.example .env
+```
+Then open `.env` and set a real encryption key. Generate one with:
+```bash
+python -c "import os, base64; print(base64.b64encode(os.urandom(32)).decode())"
+```
+
+**Step 3 — Build and start:**
+```bash
+docker-compose up --build
+```
+
+**Step 4 — Open the web interface:**
+
+Visit [http://localhost:5000](http://localhost:5000) in your browser.
+
+Upload your CSV and enter the number of seats. That's it.
+
+**Useful Docker commands:**
+
+| Command | What it does |
+|---|---|
+| `docker-compose up --build` | Build image and start the app |
+| `docker-compose up -d` | Start in background (detached) |
+| `docker-compose down` | Stop and remove the container |
+| `docker-compose logs -f apportionment` | Stream live logs |
+| `docker-compose exec apportionment bash` | Open a shell inside the container |
+
+**Running the CLI inside Docker:**
+```bash
+docker-compose exec apportionment python -m src.main --seats 10 sample_data.csv
+```
+
+> **Note:** Log files are written to a `logs/` directory mounted as a Docker volume. They persist across container restarts, which matters for audit trails on a security-critical application.
+
+---
+
+### Option 2 — Command Line (CLI)
 
 Run from the **project root** directory (not from inside `src/` or `backend/`):
 
@@ -167,7 +224,7 @@ Key saved to key.bin (keep secure!)
 - `results.json.enc` — AES-256 encrypted results
 - `key.bin` — Encryption key (keep this secure; do not commit to Git)
 
-### Option 2 — Web Interface (Flask)
+### Option 3 — Web Interface (Flask, manual)
 
 Run from the **project root**:
 
