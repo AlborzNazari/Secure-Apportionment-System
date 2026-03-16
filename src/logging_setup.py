@@ -1,49 +1,42 @@
-"""Logging configuration for security and debugging"""
 import logging
 import os
 from datetime import datetime
 
 def setup_logging():
-    """Setup logging with secure defaults"""
-    
-    # Create logs directory if it doesn't exist
-    logs_dir = os.path.join(os.path.expanduser('~'), 'AppData', 'Local', 'ApportionmentSys', 'logs')
+    logs_dir = 'logs'
     if not os.path.exists(logs_dir):
-        os.makedirs(logs_dir)
-    
-    # Log filename with timestamp
-    log_file = os.path.join(os.path.expanduser('~'), 'AppData', 'Local', 'ApportionmentSys', 'logs', f"app_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log")
-    
-    # Create logger
+        try:
+            os.makedirs(logs_dir)
+        except PermissionError:
+            logs_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'logs')
+            os.makedirs(logs_dir, exist_ok=True)
+
+    log_file = os.path.join(logs_dir, f"app_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log")
+
     logger = logging.getLogger('SecureApportionment')
     logger.setLevel(logging.INFO)
-    
-    # File handler
+
     file_handler = logging.FileHandler(log_file)
     file_handler.setLevel(logging.INFO)
-    
-    # Console handler
+
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.DEBUG)
-    
-    # Format: timestamp | level | message (NO sensitive data)
+
     formatter = logging.Formatter(
         '%(asctime)s | %(levelname)-8s | %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
-    
+
     file_handler.setFormatter(formatter)
     console_handler.setFormatter(formatter)
-    
+
     logger.addHandler(file_handler)
     logger.addHandler(console_handler)
-    
+
     return logger
 
-# Create global logger instance
 logger = setup_logging()
 
-# Log startup
 logger.info("=" * 50)
 logger.info("Secure Apportionment System Started")
 logger.info("=" * 50)
