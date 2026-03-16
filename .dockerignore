@@ -1,0 +1,62 @@
+# ============================================================
+# .dockerignore — Secure Apportionment System
+# ============================================================
+# Prevents these files from being sent to the Docker build context.
+# Smaller context = faster builds. Excluded secrets = safer images.
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Secrets and keys — NEVER bake these into a Docker image
+.env
+*.env
+key.bin
+*.enc
+*.key
+
+# Test artifacts (not needed in the runtime image)
+tests/
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Logs (generated at runtime, mounted as a volume)
+logs/
+
+# Git history and CI config (not needed inside the container)
+.git/
+.github/
+.gitignore/
+.gitattributes
+
+# Documentation (not needed at runtime)
+docs/
+*.md
+!README.md
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# IDE config
+.vscode/
+.idea/
+*.swp
+
+# Frontend static site (served by Cloudflare Pages, not Flask)
+index.html
+public/
