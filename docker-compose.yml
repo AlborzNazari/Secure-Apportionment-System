@@ -1,0 +1,80 @@
+# ============================================================
+# Secure Apportionment System — docker-compose.yml
+# v0.1.0 | Orchestrates Flask backend for local dev & staging
+# ============================================================
+#
+# Usage:
+#   Development:  docker-compose up --build
+#   Detached:     docker-compose up -d --build
+#   Stop:         docker-compose down
+#   Logs:         docker-compose logs -f apportionment
+#   Shell access: docker-compose exec apportionment bash
+#
+# ============================================================
+
+version: "3.9"
+
+services:
+
+  apportionment:
+    # Build from the Dockerfile in the project root.
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # Build for the runtime stage (multi-stage build).
+      target: runtime
+
+    # Name the running container for easy identification in docker ps.
+    container_name: secure-apportionment-v010
+
+    # Map host port 5000 → container port 5000.
+    # Access the app at http://localhost:5000 on your machine.
+    # Change the left side (host) if port 5000 is taken: e.g., "8080:5000"
+    ports:
+      - "5000:5000"
+
+    # Environment variables — override the Dockerfile defaults here.
+    # NEVER commit real secrets to this file.
+    # For production, use Docker secrets or a .env file (see below).
+    environment:
+      FLASK_ENV: development          # Switch to 'production' for staging/prod
+      FLASK_DEBUG: 0                  # Keep 0; set to 1 only for local breakpoints
+      # ENCRYPTION_KEY is intentionally left out here.
+      # It must be supplied via .env (see .env.example) — never hardcoded.
+      # config.py already warns loudly if the default placeholder is used.
+
+    # Load secrets from a local .env file.
+    # Create this file from .env.example — it is gitignored.
+    # This is where ENCRYPTION_KEY should live in your local setup.
+    env_file:
+      - .env
+
+    # Volume mounts:
+    # 1. logs/ — persist log files across container restarts.
+    #    Critical for a security app: you want an audit trail that
+    #    survives a container crash or restart.
+    # 2. src/ — live-reload your Python source during development.
+    #    Remove the src mount for production (immutable image is safer).
+    volumes:
+      - ./logs:/app/logs
+      - ./src:/app/src  # Remove this line for production deployments
+
+    # Restart policy: restart the container automatically if it crashes.
+    # 'unless-stopped' means it restarts on failure or reboot,
+    # but respects an explicit `docker-compose down`.
+    restart: unless-stopped
+
+    # Resource limits — prevent a runaway process from consuming
+    # all host resources. Tune these to your machine.
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 256M
+        reservations:
+          cpus: "0.10"
+          memory: 64M
+
+# Named volume for logs — managed by Docker, survives container removal.
+volumes:
+  logs:
