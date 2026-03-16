@@ -1,7 +1,7 @@
 """Main Flask web application for Secure Apportionment System"""
 
 from flask import Flask, render_template, request, jsonify
-from src.apportionment import allocate_seats
+from src.apportionment import huntington_hill as allocate_seats
 from src.validators import validate_csv_data, validate_seats_allocation
 from src.logging_setup import logger
 
