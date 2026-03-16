@@ -298,47 +298,39 @@ fileDrop.addEventListener('drop', (e) => {
     e.preventDefault();
     fileDrop.classList.remove('drag-over');
     const file = e.dataTransfer.files[0];
-    if (file && file.name.endsWith('.csv')) {
-        setFile(file);
-        activeScenario = null;
-        document.getElementById('activeScenarioBanner').classList.add('hidden');
-        document.querySelectorAll('.dataset-card').forEach(c => c.classList.remove('active'));
-    }
+    if (file && file.name.endsWith('.csv')) setFile(file);
 });
 
 fileInput.addEventListener('change', () => {
-    if (fileInput.files[0]) {
-        setFile(fileInput.files[0]);
-        activeScenario = null;
-        document.getElementById('activeScenarioBanner').classList.add('hidden');
-        document.querySelectorAll('.dataset-card').forEach(c => c.classList.remove('active'));
-    }
+    if (fileInput.files[0]) setFile(fileInput.files[0]);
 });
+
+const FILENAME_MAP = {
+    'sample_basic': 'basic',
+    'sample_proportional': 'proportional',
+    'sample_condorcet': 'condorcet',
+    'sample_arrow': 'arrow',
+    'sample_runoff_round1': 'runoff_round1',
+    'sample_runoff_round2': 'runoff_round2',
+    'sample_strategic_voting_no_green': 'strategic_no_green',
+    'sample_strategic_voting': 'strategic',
+    'sample_large_election': 'large',
+    'sample_alabama_paradox': 'alabama',
+    'sample_coalition': 'coalition'
+};
 
 function setFile(file) {
     fileSelected.innerHTML = `✓ &nbsp;<strong>${file.name}</strong> &nbsp;(${formatBytes(file.size)})`;
     fileSelected.classList.remove('hidden');
+
     const reader = new FileReader();
     reader.onload = (e) => previewCSV(e.target.result);
     reader.readAsText(file);
 
-    // Auto-detect scenario from filename
-    const nameMap = {
-        'sample_basic': 'basic',
-        'sample_proportional': 'proportional',
-        'sample_condorcet': 'condorcet',
-        'sample_arrow': 'arrow',
-        'sample_runoff_round1': 'runoff_round1',
-        'sample_runoff_round2': 'runoff_round2',
-        'sample_strategic_voting_no_green': 'strategic_no_green',
-        'sample_strategic_voting': 'strategic',
-        'sample_large_election': 'large',
-        'sample_alabama_paradox': 'alabama',
-        'sample_coalition': 'coalition'
-    };
-    const baseName = file.name.replace('.csv', '');
-    const matched = nameMap[baseName];
-    if (matched) {
+    const baseName = file.name.replace('.csv', '').toLowerCase().trim();
+    const matched = FILENAME_MAP[baseName];
+
+    if (matched && DATASETS[matched]) {
         activeScenario = matched;
         const dataset = DATASETS[matched];
         document.getElementById('activeScenarioBanner').classList.remove('hidden');
@@ -348,6 +340,10 @@ function setFile(file) {
         document.querySelectorAll('.dataset-card').forEach(c => {
             c.classList.toggle('active', c.dataset.scenario === matched);
         });
+    } else {
+        activeScenario = null;
+        document.getElementById('activeScenarioBanner').classList.add('hidden');
+        document.querySelectorAll('.dataset-card').forEach(c => c.classList.remove('active'));
     }
 }
 
