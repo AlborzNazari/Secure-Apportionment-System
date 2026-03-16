@@ -9,7 +9,7 @@ def setup_logging():
     # Create logs directory if it doesn't exist
     logs_dir = os.path.join(os.path.expanduser('~'), 'AppData', 'Local', 'ApportionmentSys', 'logs')
     if not os.path.exists(logs_dir):
-    os.makedirs(logs_dir)
+        os.makedirs(logs_dir)
     
     # Log filename with timestamp
     log_file = os.path.join(os.path.expanduser('~'), 'AppData', 'Local', 'ApportionmentSys', 'logs', f"app_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log")
