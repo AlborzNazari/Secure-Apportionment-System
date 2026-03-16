@@ -12,6 +12,9 @@ A secure parliamentary seat apportionment tool that implements the **Huntington-
 
 ---
 
+<img width="1024" height="1536" alt="Secure-Apportionment-System" src="https://github.com/user-attachments/assets/17a2c0b8-9294-466b-916b-d6557650d319" />
+
+
 ## What It Does
 
 This system takes a CSV file of political parties and their vote counts, then fairly distributes a given number of parliamentary seats using the Huntington-Hill method — the same method used in the U.S. House of Representatives. Results are encrypted with AES-256 before being saved to disk, ensuring data integrity and confidentiality.
@@ -403,6 +406,5 @@ without annotations by design.
 See [LICENSE](LICENSE) for details.
 
 
-<img width="1024" height="1536" alt="Secure-Apportionment-System" src="https://github.com/user-attachments/assets/17a2c0b8-9294-466b-916b-d6557650d319" />
 
 
