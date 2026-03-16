@@ -7,11 +7,12 @@ def setup_logging():
     """Setup logging with secure defaults"""
     
     # Create logs directory if it doesn't exist
-    if not os.path.exists('logs'):
-        os.makedirs('logs')
+    logs_dir = os.path.join(os.path.expanduser('~'), 'AppData', 'Local', 'ApportionmentSys', 'logs')
+    if not os.path.exists(logs_dir):
+    os.makedirs(logs_dir)
     
     # Log filename with timestamp
-    log_file = f"logs/app_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+    log_file = os.path.join(os.path.expanduser('~'), 'AppData', 'Local', 'ApportionmentSys', 'logs', f"app_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log")
     
     # Create logger
     logger = logging.getLogger('SecureApportionment')
