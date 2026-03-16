@@ -1,0 +1,76 @@
+# ============================================================
+# .github/workflows/docker-publish.yml
+# Secure Apportionment System — Docker Build & Publish
+# ============================================================
+# Triggers:
+#   - Every push to main (builds and pushes a 'latest' image)
+#   - Every version tag (v0.1.0, v0.2.0, ...) — pushes a tagged image
+#
+# Images are pushed to GitHub Container Registry (ghcr.io).
+# No Docker Hub account needed — uses your existing GitHub token.
+#
+# After a successful push, pull the image with:
+#   docker pull ghcr.io/alborznazari/secure-apportionment-system:latest
+# ============================================================
+
+name: Docker Build & Publish
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*.*.*"   # matches v0.1.0, v0.2.0, etc.
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    # Required to push to ghcr.io
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Log in to GitHub Container Registry using the automatic GITHUB_TOKEN.
+      # No secrets to manage — GitHub provides this token automatically.
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Extract metadata to auto-generate image tags and labels.
+      # On a tag push (v0.1.0): produces tags 'v0.1.0' and 'latest'
+      # On a branch push (main): produces tag 'latest'
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=ref,event=branch
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      # Build cache speeds up repeated builds significantly.
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Build the multi-stage Dockerfile and push to ghcr.io.
+      # Only the 'runtime' stage is pushed — the 'builder' stage stays local.
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          target: runtime
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
