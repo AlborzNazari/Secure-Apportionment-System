@@ -1,5 +1,6 @@
 # Secure Apportionment System
 
+![Windows](https://img.shields.io/badge/Windows-.exe-0078D6?logo=windows&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![Flask](https://img.shields.io/badge/Flask-3.0.0-lightgrey)
 ![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)
