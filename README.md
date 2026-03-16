@@ -114,8 +114,24 @@ pip install -r backend/requirements.txt
 
 The system requires a CSV file with exactly two columns: `Group` and `Votes`.
 
-**Create a sample file** by saving the following as `sample_data.csv` in the project root:
+**11 ready-made research scenarios are already included** in the project root
+and embedded in the web interface dataset library — no file creation needed:
 
+| File | Scenario | Seats |
+|---|---|---|
+| `sample_basic.csv` | 4-party proportional baseline | 100 |
+| `sample_proportional.csv` | EU Parliament 22-state model | 705 |
+| `sample_condorcet.csv` | Condorcet winner scenario | 50 |
+| `sample_arrow.csv` | Arrow's impossibility stress test | 25 |
+| `sample_runoff_round1.csv` | Two-round system Round 1 | 200 |
+| `sample_runoff_round2.csv` | Two-round system Round 2 | 200 |
+| `sample_strategic_voting.csv` | IIA violation — Green present | 60 |
+| `sample_strategic_voting_no_green.csv` | IIA baseline — Green withdrawn | 60 |
+| `sample_large_election.csv` | UK-scale 8.24M ballot test | 650 |
+| `sample_alabama_paradox.csv` | Alabama paradox — try 25 then 26 | 25/26 |
+| `sample_coalition.csv` | Bundestag coalition model | 598 |
+
+To create your own CSV, save it with exactly this format:
 ```
 Group,Votes
 Party_A,50000
@@ -124,19 +140,18 @@ Party_C,15000
 Party_D,5000
 ```
 
-> **Important — Windows PowerShell users:** Do NOT use the `echo` command to create CSV files in PowerShell. It adds invisible Unicode characters that break the CSV parser and cause empty results (`{}`). Instead, create the file using Notepad or run:
-
-```powershell
-Set-Content -Path "sample_data.csv" -Value "Group,Votes`nParty_A,50000`nParty_B,30000`nParty_C,15000`nParty_D,5000" -Encoding UTF8
-```
+> **Windows PowerShell users:** Do NOT use `echo` to create CSV files — it adds
+> invisible Unicode characters that break the parser and return empty results `{}`.
+> Use Notepad or run:
+> ```powershell
+> Set-Content -Path "sample_data.csv" -Value "Group,Votes`nParty_A,50000`nParty_B,30000`nParty_C,15000`nParty_D,5000" -Encoding UTF8
+> ```
 
 **CSV rules:**
 - First row must be the header: `Group,Votes`
 - Group names must not contain commas
 - Vote values must be whole positive numbers (no decimals)
 - Rows with invalid values are silently skipped
-
----
 
 ## Running the Application
 
