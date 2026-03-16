@@ -321,6 +321,34 @@ function setFile(file) {
     const reader = new FileReader();
     reader.onload = (e) => previewCSV(e.target.result);
     reader.readAsText(file);
+
+    // Auto-detect scenario from filename
+    const nameMap = {
+        'sample_basic': 'basic',
+        'sample_proportional': 'proportional',
+        'sample_condorcet': 'condorcet',
+        'sample_arrow': 'arrow',
+        'sample_runoff_round1': 'runoff_round1',
+        'sample_runoff_round2': 'runoff_round2',
+        'sample_strategic_voting_no_green': 'strategic_no_green',
+        'sample_strategic_voting': 'strategic',
+        'sample_large_election': 'large',
+        'sample_alabama_paradox': 'alabama',
+        'sample_coalition': 'coalition'
+    };
+    const baseName = file.name.replace('.csv', '');
+    const matched = nameMap[baseName];
+    if (matched) {
+        activeScenario = matched;
+        const dataset = DATASETS[matched];
+        document.getElementById('activeScenarioBanner').classList.remove('hidden');
+        document.getElementById('scenarioBannerName').textContent = dataset.name;
+        document.getElementById('scenarioBannerTheory').textContent = dataset.theory;
+        document.getElementById('totalSeats').value = dataset.seats;
+        document.querySelectorAll('.dataset-card').forEach(c => {
+            c.classList.toggle('active', c.dataset.scenario === matched);
+        });
+    }
 }
 
 function formatBytes(bytes) {
