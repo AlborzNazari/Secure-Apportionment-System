@@ -285,6 +285,57 @@ ENCRYPTION_KEY=your-random-secret-key-here
 
 ---
 
+## Docker Troubleshooting
+
+### `failed to connect to the docker API at npipe`
+Docker Desktop is not running. Open it from the Start menu, wait for the green
+**Running** status in the bottom-left corner, then retry in a fresh PowerShell window.
+If it won't start, right-click → **Run as administrator**.
+If the engine still fails after 60 seconds: Docker Desktop → Settings →
+**Troubleshoot** → **Reset to factory defaults**.
+
+### Changes to files not appearing in the browser
+Docker caches image layers. Always use the full rebuild sequence:
+```powershell
+docker-compose down
+docker rmi secure-apportionment-v010 -f
+docker-compose up --build
+```
+Then hard-refresh: `Ctrl + Shift + R`
+Verify in browser console (F12): should say `✓ Secure Apportionment System v3 loaded`
+
+### `ImportError: cannot import name 'allocate_seats'`
+In `src/app.py` line 4, change:
+```python
+from src.apportionment import allocate_seats
+```
+to:
+```python
+from src.apportionment import huntington_hill as allocate_seats
+```
+
+### `TemplateNotFound: index.html`
+In `src/app.py`, change:
+```python
+app = Flask(__name__)
+```
+to:
+```python
+app = Flask(__name__, template_folder='../templates', static_folder='../static')
+```
+
+### `cp` not recognized on Windows
+Use `copy` instead:
+```powershell
+copy .env.example .env
+```
+
+### Annotations not showing in results panel
+Open F12 → Console. If it says `v2 loaded` the image is stale — run the full
+rebuild sequence above. Annotations only appear for the 11 named scenario files
+or when selecting a card from the dataset library. Custom CSV uploads show results
+without annotations by design.
+
 ## Dependencies
 
 ### Root `requirements.txt`
