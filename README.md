@@ -190,6 +190,28 @@ Visit [http://localhost:5000](http://localhost:5000) in your browser.
 
 Upload your CSV and enter the number of seats. That's it.
 
+## Windows Desktop App (No Setup Required)
+
+For users who want to run the system without Python, Docker, or any
+installation:
+
+1. Go to [Releases](https://github.com/AlborzNazari/Secure-Apportionment-System/releases)
+2. Download `ApportionmentSys-Windows.zip`
+3. Unzip it anywhere on your machine
+4. Double-click `ApportionmentSys-App.exe`
+5. Select a dataset from the dropdown
+6. Enter the number of seats
+7. Click **Calculate Allocation →**
+
+Results appear instantly in the output panel. Encrypted output saved
+to `results.json.enc` in the same folder. No Python, no Docker, no
+browser, no internet connection required.
+
+> **Note:** Windows Defender or antivirus software may flag the exe
+> on first run — this is a known false positive with PyInstaller
+> bundles. Click "More info" → "Run anyway" to proceed. The source
+> code is fully open at the link above.
+
 **Useful Docker commands:**
 
 | Command | What it does |
@@ -354,6 +376,20 @@ rebuild sequence above. Annotations only appear for the 11 named scenario files
 or when selecting a card from the dataset library. Custom CSV uploads show results
 without annotations by design.
 
+## Deployment Targets
+
+| Method | Platform | Requirements | Use Case |
+|---|---|---|---|
+| `ApportionmentSys-App.exe` | Windows | Nothing | End users, offline use |
+| `python -m src.main` | Any | Python 3.10+ | Developers, scripting |
+| `docker-compose up --build` | Any | Docker Desktop | Full web UI, localhost |
+| Fly.io / Render | Cloud | Docker | Public deployment (v0.2.0) |
+| `./ApportionmentSys-linux` | Linux | Nothing | Linux end users |
+
+Each deployment method is independent. The exe, Docker, and direct
+Python all use the same core algorithm and encryption layer.
+
+  
 ## Dependencies
 
 ### Root `requirements.txt`
@@ -391,8 +427,6 @@ without annotations by design.
 - The system is intended for development and research use. A production deployment would require additional hardening (HTTPS, key management infrastructure, authentication).
 
 ---
-
-
 
 ## Community
 
