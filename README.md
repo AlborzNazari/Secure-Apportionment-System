@@ -12,6 +12,7 @@
 A secure parliamentary seat apportionment tool that implements the **Huntington-Hill** algorithm with **AES-256-CBC** encryption. Supports both a command-line interface and a web-based interface via Flask.
 
 ---
+🔗 **Visual Doc** [Secure Apportionment System](https://secure-apportionment-system.pages.dev/)
 
 <img width="1024" height="1536" alt="Secure-Apportionment-System" src="https://github.com/user-attachments/assets/17a2c0b8-9294-466b-916b-d6557650d319" />
 
@@ -60,11 +61,6 @@ Secure-Apportionment-System/
 ├── requirements.txt         # Root dependencies
 └── index.html               # Static frontend
 ```
-
----
-
-🔗 **Visual Doc** [Secure Apportionment System](https://secure-apportionment-system.pages.dev/)
-
 
 ## Requirements
 
@@ -435,6 +431,10 @@ Python all use the same core algorithm and encryption layer.
 - [Contributing Guidelines](./docs/CONTRIBUTING.md)
 - [Security Practices](./docs/SECURITY.md)
 
+## Visualization & Charts
+
+[📄 Download PDF (v0.2.0)](https://github.com/your-user/your-repo/releases/download/v0.2.0/yourfile.pdf)  
+`SHA‑256: 7953a990fcb601e05ecc56832918d34e688c52271add2a525d8d7508e6878934`
 
 ## License
 
