@@ -433,7 +433,7 @@ Python all use the same core algorithm and encryption layer.
 
 ## Visualization & Charts
 
-[📄 Download PDF (v0.2.0)](https://github.com/AlborzNazari/Secure-Apportionment-System/releases/download/v0.2.0/Secure-Apportionment-System-v0.2.0.pdf)  
+[📄 Download PDF (v0.2.0)](https://github.com/AlborzNazari/Secure-Apportionment-System/releases/download/v0.2.0/Secure-Apportionment-System-v0_2_0.pdf)  
 `SHA‑256: 7953a990fcb601e05ecc56832918d34e688c52271add2a525d8d7508e6878934`
 
 ## License
