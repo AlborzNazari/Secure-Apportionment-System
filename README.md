@@ -79,6 +79,8 @@ The command-line tool then encrypts the result with AES-256-GCM and writes `resu
 
 📖 **[docs/HOW_IT_WORKS.md](docs/HOW_IT_WORKS.md)** explains it in plain language: a pipeline diagram, a 3-party worked example, exactly how the encryption works, and a map from each feature to its file and function.
 
+🧭 **[docs/DESIGN_DECISIONS.md](docs/DESIGN_DECISIONS.md)** explains *why*: why Huntington-Hill, why GCM replaced CBC, why the public demo runs in the browser, what each kind of test proves, and the known weaknesses.
+
 ---
 
 ## Security design and its limits
@@ -151,7 +153,8 @@ src/app.py             Flask web app (templates/, static/)
 public/index.html      project page + live demo (Cloudflare Pages)
 scripts/benchmark.py   benchmark
 tests/                 pytest suite, tests/js/ for the demo, tests/data/ fixtures
-docs/HOW_IT_WORKS.md   plain-language guide
+docs/HOW_IT_WORKS.md   plain-language guide (how)
+docs/DESIGN_DECISIONS.md  why each part is built this way
 ```
 
 `Dockerfile`, `docker-compose.yml` and `launcher.py` (a Windows desktop wrapper) are also included, but were not re-tested for this release. The `.exe` downloads on the Releases page predate the switch to AES-256-GCM.
