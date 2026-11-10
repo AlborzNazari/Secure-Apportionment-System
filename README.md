@@ -65,7 +65,7 @@ python -m src.app
 
 Then open http://127.0.0.1:5000.
 
-**Your own data:** a CSV with a `Group,Votes` header and one `name,whole number` row per party. Eleven example files (`sample_*.csv`) are included.
+**Your own data:** a CSV with a `Group,Votes` header and one `name,whole number` row per party. Twelve example files (`sample_*.csv`) are included.
 
 ---
 
