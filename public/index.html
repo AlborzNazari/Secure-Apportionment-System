@@ -140,6 +140,12 @@
   .verdict{font-family:'Inter',sans-serif;font-size:.92rem;padding:10px 12px;border-radius:2px;margin-top:10px;}
   .verdict.ok{background:rgba(95,211,154,.12);border:1px solid rgba(95,211,154,.4);color:var(--ok);}
   .verdict.bad{background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.4);color:var(--bad);}
+  .verdict.warn{background:rgba(232,201,106,.10);border:1px solid rgba(232,201,106,.45);color:var(--gold2);}
+  .verdict.blocked{background:rgba(95,211,154,.10);border:1px solid rgba(95,211,154,.45);color:var(--cream);}
+  .verdict strong{display:block;margin-bottom:4px;}
+  .verdict.blocked strong{color:var(--ok);}
+  .steps{font-family:'Inter',sans-serif;font-size:.78rem;color:var(--muted);margin-top:10px;line-height:1.6;}
+  .steps b{color:var(--cream);font-weight:500;}
   .match{color:var(--ok);} .mismatch{color:var(--bad);}
   .legend{font-family:'Inter',sans-serif;font-size:.75rem;color:var(--muted);margin-top:6px;}
   .hidden{display:none !important;}
@@ -242,6 +248,7 @@
         <h3 style="margin-top:22px;">3 · Encrypt, then try to tamper</h3>
         <div class="legend">A new 256-bit key is generated in this page and never leaves it. Output = <span style="color:#7ec8e3">nonce (12 bytes)</span> + ciphertext + <span style="color:var(--gold2)">tag (16 bytes)</span>.</div>
         <div class="hex" id="hexOut">—</div>
+        <div class="steps">Try it: <b>Decrypt</b> (works) → <b>Change first party's seats</b> (an attacker edits the file) → <b>Decrypt</b> again (refused: that is the point) → <b>Undo change</b>.</div>
         <div class="row">
           <button class="btn btn-outline btn-small" id="decryptBtn" type="button" disabled>Decrypt</button>
           <button class="btn btn-outline btn-small" id="tamperBtn" type="button" disabled>Change first party's seats</button>
@@ -473,6 +480,12 @@ if (typeof module !== 'undefined') module.exports = ApportionCore;
   var subtle = window.crypto && window.crypto.subtle;
 
   function setMsg(el, text, cls) { el.textContent = text; el.className = (el.id === 'verdict' ? 'verdict ' : 'msg ') + (cls || ''); }
+  function showVerdict(title, body, cls) {
+    verdict.textContent = '';
+    var t = document.createElement('strong'); t.textContent = title; verdict.appendChild(t);
+    verdict.appendChild(document.createTextNode(body));
+    verdict.className = 'verdict ' + cls;
+  }
   function cell(tr, text, cls) { var td = document.createElement('td'); td.textContent = text; if (cls) td.className = cls; tr.appendChild(td); return td; }
 
   function loadPreset(name) {
@@ -535,6 +548,7 @@ if (typeof module !== 'undefined') module.exports = ApportionCore;
     state.tampered = -1;
     renderHex();
     decryptBtn.disabled = false; tamperBtn.disabled = false; resetBtn.disabled = true;
+    decryptBtn.textContent = 'Decrypt';
     verdict.classList.add('hidden');
   }
 
@@ -563,11 +577,17 @@ if (typeof module !== 'undefined') module.exports = ApportionCore;
       var b = state.current;
       var pt = await subtle.decrypt({ name: 'AES-GCM', iv: b.slice(0, 12) }, state.key, b.slice(12));
       var text = new TextDecoder().decode(pt);
-      setMsg(verdict, '✓ Tag verified. Decrypted: ' + (text.length > 160 ? text.slice(0, 160) + '…' : text), 'ok');
+      showVerdict('✓ Tag verified: the file is unchanged.', 'Decrypted: ' + (text.length > 160 ? text.slice(0, 160) + '…' : text), 'ok');
     } catch (e) {
-      setMsg(verdict, '✗ Rejected: the authentication tag does not match, so the file was changed or the key is wrong. No data is returned.', 'bad');
+      if (state.tampered >= 0) {
+        showVerdict('🛡 Edit detected: decryption refused. This is the expected result.',
+          'The 16-byte tag no longer matches the edited file, so AES-GCM returns no data at all. ' +
+          'The old CBC design would have decrypted the forged seat count without complaint. Press “Undo change” to decrypt the original.', 'blocked');
+      } else {
+        showVerdict('✗ Decryption failed unexpectedly.',
+          'The file was not edited, so this should not happen (' + (e && e.name || 'error') + '). Press “Allocate seats” to make a new key and file, and please report your browser if it repeats.', 'bad');
+      }
     }
-    verdict.classList.remove('hidden');
   }
 
   // GCM encrypts like a stream cipher: byte i of the ciphertext lines up with byte i of
@@ -582,9 +602,10 @@ if (typeof module !== 'undefined') module.exports = ApportionCore;
     state.tampered = 12 + pos;
     renderHex();
     resetBtn.disabled = false;
-    setMsg(verdict, 'Changed ciphertext byte ' + (12 + pos) + ' so the first group\'s seats would read ' +
-      String.fromCharCode(to) + m[1].slice(1) + ' instead of ' + m[1] + '. Now press Decrypt.', 'bad');
-    verdict.classList.remove('hidden');
+    decryptBtn.textContent = 'Decrypt the edited file';
+    showVerdict('You played the attacker: byte ' + (12 + pos) + ' (red) is changed.',
+      'Without the key, the first group\'s seats would now read ' + String.fromCharCode(to) + m[1].slice(1) +
+      ' instead of ' + m[1] + '. Press “Decrypt the edited file” to see whether GCM notices.', 'warn');
   }
 
   function reset() {
@@ -592,6 +613,7 @@ if (typeof module !== 'undefined') module.exports = ApportionCore;
     state.tampered = -1;
     renderHex();
     resetBtn.disabled = true;
+    decryptBtn.textContent = 'Decrypt';
     verdict.classList.add('hidden');
   }
 
