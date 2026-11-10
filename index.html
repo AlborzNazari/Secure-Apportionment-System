@@ -179,8 +179,10 @@
   <h1>Secure <em>Apportionment</em><br>System</h1>
   <p class="tagline">Splits parliament seats with the Huntington-Hill method and seals the results with authenticated encryption (AES-256-GCM).</p>
   <div class="author-line">
-    <span>By</span>
+    <span>Directed by</span>
     <a href="https://medium.com/@alborznazari4" target="_blank" rel="noopener">Alborz Nazari</a>
+    <span class="dot">✦</span>
+    <span>Built with an AI coding assistant</span>
     <span class="dot">✦</span>
     <a href="https://github.com/AlborzNazari/Secure-Apportionment-System" target="_blank" rel="noopener">Source on GitHub</a>
   </div>
@@ -284,8 +286,8 @@
       <h2>The hard part: encryption that notices edits</h2>
     </div>
     <div class="prose">
-      <p>My first design encrypted the results with <strong>AES-256-CBC</strong>. It hid the numbers, but it did not detect tampering. Without the key, I changed a party's seat count in a real <code>results.json.enc</code> from 2 to 8 by editing the first 16 bytes of the file. It still decrypted without any error.</p>
-      <p>So I moved to <strong>authenticated encryption, AES-256-GCM</strong>. GCM adds a 16-byte tag computed from the key and the data. Decryption recomputes it and refuses the file if anything changed. I added tests that prove it: the same 2 → 8 edit, every single-byte change, flipped bits in each part of the file, cut-off and extended files, and a wrong key are all rejected.</p>
+      <p>The first design encrypted the results with <strong>AES-256-CBC</strong>. It hid the numbers, but it did not detect tampering. A security audit proved it: without the key, editing the first 16 bytes of a real <code>results.json.enc</code> changed a party's seat count from 2 to 8, and the file still decrypted without any error.</p>
+      <p>So the project moved to <strong>authenticated encryption, AES-256-GCM</strong>. GCM adds a 16-byte tag computed from the key and the data. Decryption recomputes it and refuses the file if anything changed. Tests prove it: the same 2 → 8 edit, every single-byte change, flipped bits in each part of the file, cut-off and extended files, and a wrong key are all rejected.</p>
       <p>The demo above lets you try the edit yourself.</p>
     </div>
   </section>

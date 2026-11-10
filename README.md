@@ -18,9 +18,10 @@
 ## Why this exists
 
 - **Problem.** Splitting seats fairly is a math problem: votes divide into fractions, but seats are whole. Storing the result safely is a security problem: hiding the numbers is not enough, you must also notice if someone edits them.
-- **What I built.** A Huntington-Hill seat allocator (the method the U.S. House of Representatives has used since 1941), with a command-line tool, a Flask web app and encrypted output.
-- **The hard part.** I found that my first encryption design (AES-256-CBC) didn't detect tampering. Without the key, I changed a party's seat count in a real results file from 2 to 8, and it still decrypted without error. So I moved to authenticated encryption (AES-256-GCM) and added tests proving that edit, and every other single-byte change, is now rejected.
+- **What it is.** A Huntington-Hill seat allocator (the method the U.S. House of Representatives has used since 1941), with a command-line tool, a Flask web app and encrypted output.
+- **The hard part.** A security audit of the first encryption design (AES-256-CBC) found it didn't detect tampering. Without the key, the audit changed a party's seat count in a real results file from 2 to 8, and it still decrypted without error. So the project moved to authenticated encryption (AES-256-GCM), with tests proving that edit, and every other single-byte change, is now rejected.
 - **Proof.** The [live demo](https://secure-apportionment-system.pages.dev/#demo), [403 automated tests](#tests-and-benchmark) that run on every push, and a [benchmark](#tests-and-benchmark).
+- **How it was made.** Directed by Alborz Nazari and built with an AI coding assistant ([Claude Code](https://claude.com/claude-code)). The reasoning behind every part is written up in [DESIGN_DECISIONS.md](docs/DESIGN_DECISIONS.md).
 
 ---
 
