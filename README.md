@@ -18,9 +18,10 @@
 ## Why this exists
 
 - **Problem.** Splitting seats fairly is a math problem: votes divide into fractions, but seats are whole. Storing the result safely is a security problem: hiding the numbers is not enough, you must also notice if someone edits them.
-- **What I built.** A Huntington-Hill seat allocator (the method the U.S. House of Representatives has used since 1941), with a command-line tool, a Flask web app and encrypted output.
-- **The hard part.** I found that my first encryption design (AES-256-CBC) didn't detect tampering. Without the key, I changed a party's seat count in a real results file from 2 to 8, and it still decrypted without error. So I moved to authenticated encryption (AES-256-GCM) and added tests proving that edit, and every other single-byte change, is now rejected.
+- **What it is.** A Huntington-Hill seat allocator (the method the U.S. House of Representatives has used since 1941), with a command-line tool, a Flask web app and encrypted output.
+- **The hard part.** A security audit of the first encryption design (AES-256-CBC) found it didn't detect tampering. Without the key, the audit changed a party's seat count in a real results file from 2 to 8, and it still decrypted without error. So the project moved to authenticated encryption (AES-256-GCM), with tests proving that edit, and every other single-byte change, is now rejected.
 - **Proof.** The [live demo](https://secure-apportionment-system.pages.dev/#demo), [403 automated tests](#tests-and-benchmark) that run on every push, and a [benchmark](#tests-and-benchmark).
+- **How it was made.** Directed by Alborz Nazari and built with an AI coding assistant ([Claude Code](https://claude.com/claude-code)). The reasoning behind every part is written up in [DESIGN_DECISIONS.md](docs/DESIGN_DECISIONS.md).
 
 ---
 
@@ -78,6 +79,8 @@ Then open http://127.0.0.1:5000.
 The command-line tool then encrypts the result with AES-256-GCM and writes `results.json.enc`.
 
 📖 **[docs/HOW_IT_WORKS.md](docs/HOW_IT_WORKS.md)** explains it in plain language: a pipeline diagram, a 3-party worked example, exactly how the encryption works, and a map from each feature to its file and function.
+
+🧭 **[docs/DESIGN_DECISIONS.md](docs/DESIGN_DECISIONS.md)** explains *why*: why Huntington-Hill, why GCM replaced CBC, why the public demo runs in the browser, what each kind of test proves, and the known weaknesses.
 
 ---
 
@@ -151,7 +154,8 @@ src/app.py             Flask web app (templates/, static/)
 public/index.html      project page + live demo (Cloudflare Pages)
 scripts/benchmark.py   benchmark
 tests/                 pytest suite, tests/js/ for the demo, tests/data/ fixtures
-docs/HOW_IT_WORKS.md   plain-language guide
+docs/HOW_IT_WORKS.md   plain-language guide (how)
+docs/DESIGN_DECISIONS.md  why each part is built this way
 ```
 
 `Dockerfile`, `docker-compose.yml` and `launcher.py` (a Windows desktop wrapper) are also included, but were not re-tested for this release. The `.exe` downloads on the Releases page predate the switch to AES-256-GCM.
