@@ -10,7 +10,7 @@ class Config:
     
     # Encryption settings
     ENCRYPTION_KEY = os.getenv('ENCRYPTION_KEY', 'your-secret-key-change-this')
-    ALGORITHM = "AES-256-CBC"
+    ALGORITHM = "AES-256-GCM"
     
     # Application settings
     MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB

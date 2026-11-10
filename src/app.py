@@ -67,7 +67,7 @@ def info():
         'name': 'Secure Parliamentary Apportionment System',
         'version': '1.0.0',
         'method': 'Huntington-Hill',
-        'encryption': 'AES-256-CBC'
+        'encryption': 'AES-256-GCM'
     })
 
 if __name__ == '__main__':

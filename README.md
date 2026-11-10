@@ -1,445 +1,168 @@
 # Secure Apportionment System
 
-![Windows](https://img.shields.io/badge/Windows-.exe-0078D6?logo=windows&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![Flask](https://img.shields.io/badge/Flask-3.0.0-lightgrey)
-![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)
-![Encryption](https://img.shields.io/badge/Encryption-AES--256--CBC-green)
-![Algorithm](https://img.shields.io/badge/Algorithm-Huntington--Hill-orange)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Tests](https://github.com/AlborzNazari/Secure-Apportionment-System/actions/workflows/tests.yml/badge.svg)
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![Encryption](https://img.shields.io/badge/Encryption-AES--256--GCM-green)
+![Algorithm](https://img.shields.io/badge/Algorithm-Huntington--Hill-orange)
 
-A secure parliamentary seat apportionment tool that implements the **Huntington-Hill** algorithm with **AES-256-CBC** encryption. Supports both a command-line interface and a web-based interface via Flask.
+**Splits parliament seats with the Huntington-Hill method and seals the results with authenticated encryption (AES-256-GCM).**
 
----
-🔗 **Visual Lab** [Secure Apportionment System](https://secure-apportionment-system.pages.dev/)
+🔗 **Live demo:** https://secure-apportionment-system.pages.dev/#demo
 
-<img width="1024" height="1536" alt="Secure-Apportionment-System" src="https://github.com/user-attachments/assets/17a2c0b8-9294-466b-916b-d6557650d319" />
+![Live demo: seats allocated, result encrypted, one byte changed, decryption rejected](docs/images/demo.png)
 
-
-## What It Does
-
-This system takes a CSV file of political parties and their vote counts, then fairly distributes a given number of parliamentary seats using the Huntington-Hill method — the same method used in the U.S. House of Representatives. Results are encrypted with AES-256 before being saved to disk, ensuring data integrity and confidentiality.
-
----
-
-## Project Structure
-
-```
-Secure-Apportionment-System/
-├── Dockerfile               # Multi-stage Docker build
-├── docker-compose.yml       # Local dev orchestration
-├── .dockerignore            # Excludes secrets and artifacts from image
-├── .env.example             # Environment variable template (commit this)
-├── .env                     # Your local secrets (never commit)
-├── src/
-│   ├── main.py              # CLI entry point with AES-256 encryption
-│   ├── app.py               # Flask web application
-│   ├── apportionment.py     # Huntington-Hill algorithm
-│   ├── validators.py        # Input validation
-│   ├── logging_setup.py     # Secure logging
-│   ├── AES-256.py           # Standalone AES-256-CBC encryption module
-│   └── __init__.py
-├── backend/
-│   ├── config.py            # Environment-based configuration
-│   ├── requirements.txt     # Backend dependencies
-│   └── pytest.ini
-├── templates/
-│   ├── base.html
-│   └── index.html
-├── static/
-│   ├── css/style.css
-│   └── js/main.js
-├── tests/
-│   ├── test.py
-│   └── test_validators.py
-├── docs/
-│   ├── ARCHITECTURE.md
-│   ├── ENCRYPTION.md
-│   ├── THREAT_MODEL.md
-│   └── CHANGELOG.md
-├── requirements.txt         # Root dependencies
-└── index.html               # Static frontend
-```
-
-## Requirements
-
-- Python 3.10 or higher
-- pip
-
-> **Windows users:** Do NOT use the Microsoft Store version of Python. Download the official installer from [python.org](https://python.org/downloads) and check **"Add Python to PATH"** during installation.
+*The demo runs in your browser. It allocates seats, encrypts the result, and lets you change one byte of the encrypted file. Decryption is then refused.*
 
 ---
 
-## Installation
+## Why this exists
 
-### 1. Clone the repository
+- **Problem.** Splitting seats fairly is a math problem: votes divide into fractions, but seats are whole. Storing the result safely is a security problem: hiding the numbers is not enough, you must also notice if someone edits them.
+- **What I built.** A Huntington-Hill seat allocator (the method the U.S. House of Representatives has used since 1941), with a command-line tool, a Flask web app and encrypted output.
+- **The hard part.** I found that my first encryption design (AES-256-CBC) didn't detect tampering. Without the key, I changed a party's seat count in a real results file from 2 to 8, and it still decrypted without error. So I moved to authenticated encryption (AES-256-GCM) and added tests proving that edit, and every other single-byte change, is now rejected.
+- **Proof.** The [live demo](https://secure-apportionment-system.pages.dev/#demo), [403 automated tests](#tests-and-benchmark) that run on every push, and a [benchmark](#tests-and-benchmark).
+
+---
+
+## Quick start
+
+Requires Python 3.10 or newer. Run every command from the project folder.
 
 ```bash
 git clone https://github.com/AlborzNazari/Secure-Apportionment-System.git
 cd Secure-Apportionment-System
-```
-
-### 2. Create and activate a virtual environment
-
-**Windows (PowerShell):**
-```powershell
 python -m venv venv
-venv\Scripts\activate
 ```
 
-**macOS / Linux:**
+Activate the virtual environment:
+
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+venv\Scripts\activate        # Windows
+source venv/bin/activate     # macOS / Linux
 ```
 
-### 3. Install dependencies
+Install and run:
 
-Install the root dependencies:
 ```bash
 pip install -r requirements.txt
+python -m src.main sample_basic.csv --seats 100
 ```
 
-Install the backend dependencies:
-```bash
-pip install -r backend/requirements.txt
-```
+Expected output:
 
-> **Note:** The backend `requirements.txt` includes both `Flask` and `FastAPI`. The current application uses Flask. FastAPI and uvicorn are listed for future API development but are not required to run the app today.
-
----
-
-## Preparing Your Input CSV
-
-The system requires a CSV file with exactly two columns: `Group` and `Votes`.
-
-**11 ready-made research scenarios are already included** in the project root
-and embedded in the web interface dataset library — no file creation needed:
-
-| File | Scenario | Seats |
-|---|---|---|
-| `sample_basic.csv` | 4-party proportional baseline | 100 |
-| `sample_proportional.csv` | EU Parliament 22-state model | 705 |
-| `sample_condorcet.csv` | Condorcet winner scenario | 50 |
-| `sample_arrow.csv` | Arrow's impossibility stress test | 25 |
-| `sample_runoff_round1.csv` | Two-round system Round 1 | 200 |
-| `sample_runoff_round2.csv` | Two-round system Round 2 | 200 |
-| `sample_strategic_voting.csv` | IIA violation — Green present | 60 |
-| `sample_strategic_voting_no_green.csv` | IIA baseline — Green withdrawn | 60 |
-| `sample_large_election.csv` | UK-scale 8.24M ballot test | 650 |
-| `sample_alabama_paradox.csv` | Alabama paradox — try 25 then 26 | 25/26 |
-| `sample_coalition.csv` | Bundestag coalition model | 598 |
-
-To create your own CSV, save it with exactly this format:
-```
-Group,Votes
-Party_A,50000
-Party_B,30000
-Party_C,15000
-Party_D,5000
-```
-
-> **Windows PowerShell users:** Do NOT use `echo` to create CSV files — it adds
-> invisible Unicode characters that break the parser and return empty results `{}`.
-> Use Notepad or run:
-> ```powershell
-> Set-Content -Path "sample_data.csv" -Value "Group,Votes`nParty_A,50000`nParty_B,30000`nParty_C,15000`nParty_D,5000" -Encoding UTF8
-> ```
-
-**CSV rules:**
-- First row must be the header: `Group,Votes`
-- Group names must not contain commas
-- Vote values must be whole positive numbers (no decimals)
-- Rows with invalid values are silently skipped
-
-## Running the Application
-
-> **Recommended:** Use Docker (Option 1) — it eliminates all environment setup, works identically on Windows, macOS, and Linux, and keeps your encryption key out of the project directory.
-
-### Option 1 — Docker (Recommended)
-
-**Prerequisites:** [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
-
-**Step 1 — Clone and enter the project:**
-```bash
-git clone https://github.com/AlborzNazari/Secure-Apportionment-System.git
-cd Secure-Apportionment-System
-```
-
-**Step 2 — Create your environment file:**
-```bash
-cp .env.example .env
-```
-Then open `.env` and set a real encryption key. Generate one with:
-```bash
-python -c "import os, base64; print(base64.b64encode(os.urandom(32)).decode())"
-```
-
-**Step 3 — Build and start:**
-```bash
-docker-compose up --build
-```
-
-**Step 4 — Open the web interface:**
-
-Visit [http://localhost:5000](http://localhost:5000) in your browser.
-
-Upload your CSV and enter the number of seats. That's it.
-
-## Windows Desktop App (No Setup Required)
-
-For users who want to run the system without Python, Docker, or any
-installation:
-
-1. Go to [Releases](https://github.com/AlborzNazari/Secure-Apportionment-System/releases)
-2. Download `ApportionmentSys-Windows.zip`
-3. Unzip it anywhere on your machine
-4. Double-click `ApportionmentSys-App.exe`
-5. Select a dataset from the dropdown
-6. Enter the number of seats
-7. Click **Calculate Allocation →**
-
-Results appear instantly in the output panel. Encrypted output saved
-to `results.json.enc` in the same folder. No Python, no Docker, no
-browser, no internet connection required.
-
-> **Note:** Windows Defender or antivirus software may flag the exe
-> on first run — this is a known false positive with PyInstaller
-> bundles. Click "More info" → "Run anyway" to proceed. The source
-> code is fully open at the link above.
-
-**Useful Docker commands:**
-
-| Command | What it does |
-|---|---|
-| `docker-compose up --build` | Build image and start the app |
-| `docker-compose up -d` | Start in background (detached) |
-| `docker-compose down` | Stop and remove the container |
-| `docker-compose logs -f apportionment` | Stream live logs |
-| `docker-compose exec apportionment bash` | Open a shell inside the container |
-
-**Running the CLI inside Docker:**
-```bash
-docker-compose exec apportionment python -m src.main --seats 10 sample_data.csv
-```
-
-> **Note:** Log files are written to a `logs/` directory mounted as a Docker volume. They persist across container restarts, which matters for audit trails on a security-critical application.
-
----
-
-### Option 2 — Command Line (CLI)
-
-Run from the **project root** directory (not from inside `src/` or `backend/`):
-
-```bash
-python -m src.main --seats 10 sample_data.csv
-```
-
-**Arguments:**
-
-| Argument | Required | Description |
-|---|---|---|
-| `csv_file` | Yes | Path to your CSV file |
-| `--seats` | Yes | Total seats to allocate |
-| `--output` | No | Output filename base (default: `results.json`) |
-
-**Example with custom output name:**
-```bash
-python -m src.main --seats 100 sample_data.csv --output election_results
-```
-
-**Expected output:**
 ```
 Apportionment Results:
-{'Party_A': 50, 'Party_B': 30, 'Party_C': 15, 'Party_D': 5}
+{'Party_A': 39, 'Party_B': 28, 'Party_C': 20, 'Party_D': 13}
 Encrypted results saved to results.json.enc
 Key saved to key.bin (keep secure!)
 ```
 
-**Output files generated:**
-- `results.json.enc` — AES-256 encrypted results
-- `key.bin` — Encryption key (keep this secure; do not commit to Git)
-
-### Option 3 — Web Interface (Flask, manual)
-
-Run from the **project root**:
+**Web app** (local only, see [limits](#security-design-and-its-limits)):
 
 ```bash
 python -m src.app
 ```
 
-Then open your browser and go to: [http://127.0.0.1:5000](http://127.0.0.1:5000)
+Then open http://127.0.0.1:5000.
 
-Upload your CSV file through the web form and enter the total number of seats to allocate.
+**Your own data:** a CSV with a `Group,Votes` header and one `name,whole number` row per party. Twelve example files (`sample_*.csv`) are included.
 
 ---
 
-## Running Tests
+## How it works
+
+1. Every party with at least one vote gets 1 seat.
+2. Each party gets a priority score: `votes / √(n × (n + 1))`, where `n` is the seats it holds now.
+3. The next seat goes to the highest score. That party's score drops. Repeat until all seats are given out.
+
+The command-line tool then encrypts the result with AES-256-GCM and writes `results.json.enc`.
+
+📖 **[docs/HOW_IT_WORKS.md](docs/HOW_IT_WORKS.md)** explains it in plain language: a pipeline diagram, a 3-party worked example, exactly how the encryption works, and a map from each feature to its file and function.
+
+---
+
+## Security design and its limits
+
+**What it does**
+
+- AES-256-GCM via the Python [`cryptography`](https://cryptography.io) library (`src/crypto.py`).
+- A fresh random 12-byte nonce for every encryption.
+- A 16-byte authentication tag: a wrong key or any changed byte is rejected with `InvalidTag`.
+- File format: nonce + ciphertext + tag.
+
+**What it does not do (yet)**
+
+- The command-line tool saves the key to `key.bin` next to the results. Anyone with both files can read them, or re-seal edited ones.
+- The Flask web app does not encrypt anything.
+- The web app has no login, no seat limit and does not escape party names. Run it only on your own machine.
+- The tag proves the file was not changed. It does not prove who made it.
+
+---
+
+## Tests and benchmark
+
+**403 automated tests** run on [GitHub Actions](.github/workflows/tests.yml) for every push (Python 3.10–3.13 and Node.js). 392 are Python tests and 11 are JavaScript tests. They check that:
+
+- The result matches the official [2020 Census apportionment](https://www2.census.gov/programs-surveys/decennial/2020/data/apportionment/apportionment-2020-table01.xlsx) for all 50 states (`tests/data/us_house_2020.csv`).
+- Seats always add up to the total.
+- Adding a seat never removes one from any party (no Alabama paradox).
+- AES-256-GCM rejects every tampered file in the tests.
+- The JavaScript demo gives the same seats as the Python code.
+
+Run them:
 
 ```bash
-pytest tests/
+python -m pytest tests/
+node --test tests/js/demo.test.mjs
 ```
+
+**Benchmark** (`python scripts/benchmark.py`), Intel Core i9-12900K, Windows 11, Python 3.14.3, median of 7 repeats:
+
+| Case | Time per call |
+|---|---|
+| U.S. House 2020 (50 states, 435 seats) | 122 µs |
+| 12 parties, 650 seats | 168 µs |
+| Same, every vote count ×1000 | 178 µs |
+| 1,000 parties, 10,000 seats | 3.3 ms |
+| 1,000 parties, 100,000 seats | 34 ms |
+| AES-256-GCM encrypt, 785-byte result | 7 µs |
+
+Time grows with the number of seats and parties, not with the number of votes. Your numbers will differ on other hardware.
 
 ---
 
-## Known Issues & Bugs
+## Roadmap
 
-**1. Empty results `{}` from CLI**
-
-If you see `Apportionment Results: {}`, your CSV was not parsed correctly. This is almost always caused by PowerShell adding a UTF-16 BOM or extra formatting when creating the file with `echo`. Use `Set-Content` with `-Encoding UTF8` instead (see CSV section above).
-
-**2. `ModuleNotFoundError: No module named 'src'`**
-
-You are running the script from inside `src/` or `backend/`. Always run from the project root:
-```bash
-cd Secure-Apportionment-System
-python -m src.main ...
-```
-
-**3. `app.py` imports `allocate_seats` which does not exist**
-
-`src/app.py` imports `from src.apportionment import allocate_seats`, but the actual function in `apportionment.py` is named `huntington_hill`. Running `app.py` will raise an `ImportError`. Fix by updating the import in `app.py`:
-```python
-from src.apportionment import huntington_hill as allocate_seats
-```
-
-**4. `key.bin` and `results.json.enc` committed to Git**
-
-These files are generated at runtime and should not be in version control. Add them to `.gitignore`:
-```
-key.bin
-*.enc
-logs/
-```
-
-**5. Default encryption key warning**
-
-If `ENCRYPTION_KEY` is not set in your environment, the system uses a hardcoded default and prints a warning. For any real use, set the key in a `.env` file:
-```
-ENCRYPTION_KEY=your-random-secret-key-here
-```
+1. Keep the key out of the results folder: read it from an environment variable or the OS keyring.
+2. Encrypt results in the web app, not only the command-line tool.
+3. Harden the web app: cap the seat count, escape party names, turn off debug mode, use a production server.
+4. Upgrade `cryptography` and Flask, and run a dependency audit in CI.
+5. Sign results so readers can check who produced them.
 
 ---
 
-## Docker Troubleshooting
+## Project layout
 
-### `failed to connect to the docker API at npipe`
-Docker Desktop is not running. Open it from the Start menu, wait for the green
-**Running** status in the bottom-left corner, then retry in a fresh PowerShell window.
-If it won't start, right-click → **Run as administrator**.
-If the engine still fails after 60 seconds: Docker Desktop → Settings →
-**Troubleshoot** → **Reset to factory defaults**.
-
-### Changes to files not appearing in the browser
-Docker caches image layers. Always use the full rebuild sequence:
-```powershell
-docker-compose down
-docker rmi secure-apportionment-v010 -f
-docker-compose up --build
 ```
-Then hard-refresh: `Ctrl + Shift + R`
-Verify in browser console (F12): should say `✓ Secure Apportionment System v3 loaded`
-
-### `ImportError: cannot import name 'allocate_seats'`
-In `src/app.py` line 4, change:
-```python
-from src.apportionment import allocate_seats
-```
-to:
-```python
-from src.apportionment import huntington_hill as allocate_seats
+src/apportionment.py   Huntington-Hill + CSV reader
+src/crypto.py          AES-256-GCM encrypt / decrypt
+src/main.py            command-line tool
+src/app.py             Flask web app (templates/, static/)
+public/index.html      project page + live demo (Cloudflare Pages)
+scripts/benchmark.py   benchmark
+tests/                 pytest suite, tests/js/ for the demo, tests/data/ fixtures
+docs/HOW_IT_WORKS.md   plain-language guide
 ```
 
-### `TemplateNotFound: index.html`
-In `src/app.py`, change:
-```python
-app = Flask(__name__)
-```
-to:
-```python
-app = Flask(__name__, template_folder='../templates', static_folder='../static')
-```
+`Dockerfile`, `docker-compose.yml` and `launcher.py` (a Windows desktop wrapper) are also included, but were not re-tested for this release. The `.exe` downloads on the Releases page predate the switch to AES-256-GCM.
 
-### `cp` not recognized on Windows
-Use `copy` instead:
-```powershell
-copy .env.example .env
-```
+## Troubleshooting
 
-### Annotations not showing in results panel
-Open F12 → Console. If it says `v2 loaded` the image is stale — run the full
-rebuild sequence above. Annotations only appear for the 11 named scenario files
-or when selecting a card from the dataset library. Custom CSV uploads show results
-without annotations by design.
+- **`ModuleNotFoundError: No module named 'src'`**: run commands from the project folder, not from inside `src/`.
+- **`Apportionment Results: {}`**: every row was skipped. Check that each row is `name,whole number`, separated by a comma (not a semicolon), and that the file is saved as UTF-8.
+- **PowerShell says running scripts is disabled** when you activate the virtual environment: run `Set-ExecutionPolicy -Scope Process Bypass` in that window, then activate again.
 
-## Deployment Targets
+## More
 
-| Method | Platform | Requirements | Use Case |
-|---|---|---|---|
-| `ApportionmentSys-App.exe` | Windows | Nothing | End users, offline use |
-| `python -m src.main` | Any | Python 3.10+ | Developers, scripting |
-| `docker-compose up --build` | Any | Docker Desktop | Full web UI, localhost |
-| Fly.io / Render | Cloud | Docker | Public deployment (v0.2.0) |
-| `./ApportionmentSys-linux` | Linux | Nothing | Linux end users |
-
-Each deployment method is independent. The exe, Docker, and direct
-Python all use the same core algorithm and encryption layer.
-
-  
-## Dependencies
-
-### Root `requirements.txt`
-
-| Package | Version | Purpose |
-|---|---|---|
-| `cryptography` | 41.0.7 | AES-256-CBC encryption |
-| `Flask` | 3.0.0 | Web interface |
-| `pytest` | 7.4.3 | Testing |
-| `pandas` | >=2.2.3 | Data handling (available but not currently used in core logic) |
-
-### `backend/requirements.txt`
-
-| Package | Version | Purpose |
-|---|---|---|
-| `Flask` | 3.0.0 | Web interface (active) |
-| `cryptography` | 41.0.7 | Encryption (active) |
-| `pytest` | 7.4.3 | Testing (active) |
-| `fastapi` | 0.109.0 | Future REST API (not yet used) |
-| `uvicorn` | 0.27.0 | Future ASGI server for FastAPI (not yet used) |
-| `pydantic` | 2.11.7 | Future data validation for FastAPI (not yet used) |
-
-> `python-dotenv` is used in `backend/config.py` but is not listed in either `requirements.txt`. Install it manually until this is fixed:
-> ```bash
-> pip install python-dotenv
-> ```
-
----
-
-## Security Notes
-
-- The `key.bin` file contains your AES-256 encryption key. Never commit it to a repository.
-- In production, store the encryption key as an environment variable (`ENCRYPTION_KEY`), not in a file.
-- Logging is configured to never record sensitive data.
-- The system is intended for development and research use. A production deployment would require additional hardening (HTTPS, key management infrastructure, authentication).
-
----
-
-## Community
-
-- [Code of Conduct](./docs/CODE_OF_CONDUCT.md)
-- [Contributing Guidelines](./docs/CONTRIBUTING.md)
-- [Security Practices](./docs/SECURITY.md)
-
-## Visualization & Charts
-
-[📄 Download PDF (v0.2.0)](https://github.com/AlborzNazari/Secure-Apportionment-System/releases/download/v0.2.0/Secure-Apportionment-System-v0_2_0.pdf)  
-`SHA‑256: 7953a990fcb601e05ecc56832918d34e688c52271add2a525d8d7508e6878934`
-
-## License
-
-See [LICENSE](LICENSE) for details.
-
-
-
-
+- [Contributing](docs/CONTRIBUTING.md) · [Code of Conduct](docs/CODE_OF_CONDUCT.md)
+- [Original write-up on Medium](https://medium.com/@alborznazari4/secure-apportionment-voting-system-v0-1-0-983054d369d5) (February 2026, describes v0.1.0 and the earlier CBC design)

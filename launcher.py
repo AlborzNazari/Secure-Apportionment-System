@@ -55,7 +55,7 @@ tk.Label(root, text="SECURE APPORTIONMENT SYSTEM",
          bg="#0d0f14", fg="#4f9eff",
          font=("Courier", 13, "bold")).pack(pady=18)
 
-tk.Label(root, text="Huntington-Hill · AES-256-CBC · v0.1.0",
+tk.Label(root, text="Huntington-Hill · AES-256-GCM",
          bg="#0d0f14", fg="#555e75",
          font=("Courier", 8)).pack()
 
