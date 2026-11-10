@@ -1,0 +1,6 @@
+{
+  "_comment": "AES-256-GCM test vector made by src/crypto.py. Public test key: never use for real data.",
+  "key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+  "plaintext": "{\"A\": 5, \"B\": 3, \"C\": 2}",
+  "blob_hex": "ff73be4310bd44fba0e7fdb50beb04dd209705efd02c12604342798298123bdbcc32cddb59141cce55433119b464fdad34051c48"
+}

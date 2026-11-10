@@ -3,11 +3,11 @@
 {% block content %}
 
 <section class="hero">
-    <div class="hero-tag">SECURE · TRANSPARENT · MATHEMATICALLY PROVEN</div>
+    <div class="hero-tag">HUNTINGTON-HILL · METHOD OF EQUAL PROPORTIONS</div>
     <h1 class="hero-title">Parliamentary<br><span class="hero-accent">Seat Allocation</span></h1>
-    <p class="hero-sub">Huntington-Hill method with AES-256 encryption. Upload vote data, get fair results instantly.</p>
+    <p class="hero-sub">Huntington-Hill method, the one the U.S. House uses. Upload vote data, get the seat split instantly.</p>
     <div class="hero-stats">
-        <div class="stat"><span class="stat-val">AES-256</span><span class="stat-label">Encryption</span></div>
+        <div class="stat"><span class="stat-val">435/435</span><span class="stat-label">2020 House Seats Matched</span></div>
         <div class="stat-divider"></div>
         <div class="stat"><span class="stat-val">H-H</span><span class="stat-label">Algorithm</span></div>
         <div class="stat-divider"></div>
@@ -35,7 +35,7 @@
             <div class="dataset-title">Basic Proportional</div>
             <div class="dataset-desc">Clean four-party election. Validates Huntington-Hill produces seat shares within ±0.5% of vote shares — the proportionality benchmark all other scenarios are measured against.</div>
             <div class="dataset-theory">
-                <span class="theory-label">Theory:</span> Proportional Representation · Droop Quota
+                <span class="theory-label">Theory:</span> Proportional Representation
             </div>
             <div class="dataset-seats-hint">→ 100 seats</div>
         </div>
@@ -46,9 +46,9 @@
                 <span class="dataset-parties">22 states</span>
             </div>
             <div class="dataset-title">EU Degressive Proportionality</div>
-            <div class="dataset-desc">Based on Lisbon Treaty Article 14(2). Smaller member-states receive proportionally more seats. Demonstrates why Huntington-Hill outperforms Hamilton in multi-constituency systems.</div>
+            <div class="dataset-desc">22-state model, 705 seats. Every state with votes is guaranteed at least one seat, so watch how the smallest members fare.</div>
             <div class="dataset-theory">
-                <span class="theory-label">Theory:</span> Degressive Proportionality · Lisbon Treaty
+                <span class="theory-label">Theory:</span> Minimum-seat guarantee · Small members
             </div>
             <div class="dataset-seats-hint">→ 705 seats</div>
         </div>
@@ -59,9 +59,9 @@
                 <span class="dataset-parties">4 parties</span>
             </div>
             <div class="dataset-title">Condorcet Winner</div>
-            <div class="dataset-desc">Party A beats every opponent in pairwise comparison yet loses under plurality due to vote splitting. Proportional allocation correctly reflects aggregate preference without distortion.</div>
+            <div class="dataset-desc">Four parties of similar size; Party A leads with 34% of the vote. Head-to-head preferences cannot be read from vote totals, so seats simply follow vote shares.</div>
             <div class="dataset-theory">
-                <span class="theory-label">Theory:</span> Condorcet Criterion · Pairwise Dominance
+                <span class="theory-label">Theory:</span> Similar-sized parties
             </div>
             <div class="dataset-seats-hint">→ 50 seats</div>
         </div>
@@ -72,9 +72,9 @@
                 <span class="dataset-parties">5 parties</span>
             </div>
             <div class="dataset-title">Arrow's Impossibility</div>
-            <div class="dataset-desc">Near-equal vote shares across five parties — maximum instability zone. A ±1,000 vote perturbation in any party shifts seat allocation measurably. No method satisfies all fairness criteria simultaneously.</div>
+            <div class="dataset-desc">Five parties within 400 votes of each other share 25 seats. Each gets 5, and moving 1,000 votes to or from any one party still leaves every party at 5.</div>
             <div class="dataset-theory">
-                <span class="theory-label">Theory:</span> Arrow's Impossibility Theorem · IIA
+                <span class="theory-label">Theory:</span> Near-ties · Rounding stress test
             </div>
             <div class="dataset-seats-hint">→ 25 seats</div>
         </div>
@@ -85,7 +85,7 @@
                 <span class="dataset-parties">6 parties</span>
             </div>
             <div class="dataset-title">Run-Off Round 1</div>
-            <div class="dataset-desc">First round of two-round system. Reform Party (32k) and Agrarian Union (41k) fall below the 5% threshold (50k). No party exceeds 50% — triggers mandatory second round.</div>
+            <div class="dataset-desc">First round of a two-round system. Reform Party (32k) and Agrarian Union (41k) are below a 5% threshold (50k), and no party passes 50%. This tool applies no threshold, so they still win seats here.</div>
             <div class="dataset-theory">
                 <span class="theory-label">Theory:</span> Two-Round System · Sperrklausel Threshold
             </div>
@@ -98,7 +98,7 @@
                 <span class="dataset-parties">4 survivors</span>
             </div>
             <div class="dataset-title">Run-Off Round 2</div>
-            <div class="dataset-desc">Redistributed second-preference votes after threshold elimination. 60% of eliminated votes flow to ideologically adjacent parties. Compare with Round 1 output to quantify redistribution effect.</div>
+            <div class="dataset-desc">Vote totals for the four parties left after Round 1. Compare the seat split with Round 1 to see how the redistribution changes it.</div>
             <div class="dataset-theory">
                 <span class="theory-label">Theory:</span> Second-Preference Redistribution · IRV Approximation
             </div>
@@ -111,9 +111,9 @@
                 <span class="dataset-parties">5 parties</span>
             </div>
             <div class="dataset-title">Strategic Voting (Green Present)</div>
-            <div class="dataset-desc">Green Party in race splits Centre-Left votes. Compare with the No-Green version — Centre-Left's seat count changes despite receiving identical direct votes. This is Arrow's IIA failure made empirical.</div>
+            <div class="dataset-desc">Five parties, with Green Party in the race. Centre-Left gets 13 of 60 seats. Compare with the version where Green withdraws.</div>
             <div class="dataset-theory">
-                <span class="theory-label">Theory:</span> Independence of Irrelevant Alternatives · Strategic Voting
+                <span class="theory-label">Theory:</span> Vote splitting · Strategic voting
             </div>
             <div class="dataset-seats-hint">→ 60 seats</div>
         </div>
@@ -124,9 +124,9 @@
                 <span class="dataset-parties">4 parties</span>
             </div>
             <div class="dataset-title">Strategic Voting (Green Withdrawn)</div>
-            <div class="dataset-desc">Green Party withdraws. Their 87k votes redistribute: 52.2k to Centre-Left, 34.8k to Social Democrats. Run both versions and compare the Δ column — the seat shift is Arrow's theorem in practice.</div>
+            <div class="dataset-desc">Green Party withdraws. Its 87k votes move: 52.2k to Centre-Left, 34.8k to Social Democrats. Centre-Left rises from 13 to 17 seats.</div>
             <div class="dataset-theory">
-                <span class="theory-label">Theory:</span> IIA Counterfactual · Vote Transfer Model
+                <span class="theory-label">Theory:</span> Vote transfer model
             </div>
             <div class="dataset-seats-hint">→ 60 seats</div>
         </div>
@@ -137,9 +137,9 @@
                 <span class="dataset-parties">12 parties</span>
             </div>
             <div class="dataset-title">National Election (UK Scale)</div>
-            <div class="dataset-desc">8.24 million ballots. 12 parties. 650 seats — UK House of Commons scale. Performance benchmark: O(n log n) heap algorithm should complete in under 2 seconds. Tests boundary parties near 5% threshold.</div>
+            <div class="dataset-desc">8.24 million votes. 12 parties. 650 seats — UK House of Commons scale. Allocation takes well under a millisecond (about 0.17 ms in the project benchmark).</div>
             <div class="dataset-theory">
-                <span class="theory-label">Theory:</span> Electoral Threshold · Computational Complexity
+                <span class="theory-label">Theory:</span> Scale · Performance
             </div>
             <div class="dataset-seats-hint">→ 650 seats</div>
         </div>
@@ -150,7 +150,7 @@
                 <span class="dataset-parties">3 parties</span>
             </div>
             <div class="dataset-title">Alabama Paradox</div>
-            <div class="dataset-desc">Hamilton's method: increasing seats from 25→26 causes Party C to lose a seat. Run with 25, then change to 26 — Huntington-Hill is monotone, Party C holds. This is the core mathematical flaw Hamilton never solved.</div>
+            <div class="dataset-desc">With these votes, Hamilton's method gives Party C 4 seats out of 25 but only 3 out of 26. Run with 25, then 26: Huntington-Hill keeps Party C at 4.</div>
             <div class="dataset-theory">
                 <span class="theory-label">Theory:</span> Alabama Paradox · House Monotonicity
             </div>
@@ -163,9 +163,9 @@
                 <span class="dataset-parties">8 parties</span>
             </div>
             <div class="dataset-title">Coalition Formation</div>
-            <div class="dataset-desc">German Bundestag model. 5% Sperrklausel eliminates Ecological Front (98k) and Seniors' Party (112k). Remaining parties must coalition to reach 50%+ majority (300 of 598 seats). Grand coalition vs traffic-light analysis.</div>
+            <div class="dataset-desc">Bundestag-style model, 598 seats, majority 300. A 5% threshold would exclude Ecological Front (98k) and Seniors' Party (112k); this tool applies none, so they win seats. Use the result to test coalition arithmetic.</div>
             <div class="dataset-theory">
-                <span class="theory-label">Theory:</span> Sperrklausel · Coalition Game Theory · Sainte-Laguë
+                <span class="theory-label">Theory:</span> Coalition arithmetic
             </div>
             <div class="dataset-seats-hint">→ 598 seats</div>
         </div>
@@ -226,7 +226,7 @@
 
         <div id="loadingSpinner" class="loading hidden">
             <div class="loading-bar"><div class="loading-fill"></div></div>
-            <p>Processing with AES-256 encryption…</p>
+            <p>Calculating…</p>
         </div>
 
         <div class="csv-format-hint">
@@ -286,7 +286,7 @@ Party_C,15000</pre>
 
         <div class="encryption-note">
             <span class="enc-icon">🔒</span>
-            Results encrypted with AES-256-CBC and saved to <code>results.json.enc</code>
+            The web app does not encrypt or save results. For an AES-256-GCM encrypted file, use the command-line tool: <code>python -m src.main</code>
         </div>
     </section>
 
@@ -333,7 +333,7 @@ Party_C,15000</pre>
                     <div class="prop-check">✓</div>
                     <div>
                         <div class="prop-name">No Alabama Paradox</div>
-                        <div class="prop-detail">Proven by Balinski & Young (1982). Huntington-Hill is the unique method satisfying both monotonicity conditions.</div>
+                        <div class="prop-detail">Proven by Balinski & Young (1982): every divisor method, Huntington-Hill included, is free of the Alabama and population paradoxes.</div>
                     </div>
                 </div>
                 <div class="prop-item prop-item--yellow">
@@ -359,7 +359,7 @@ Party_C,15000</pre>
                     <div class="comp-method comp-method--active">Huntington-Hill</div>
                     <div class="comp-val comp-val--good">None</div>
                     <div class="comp-val comp-val--good">Yes</div>
-                    <div class="comp-val comp-val--neutral">Neutral</div>
+                    <div class="comp-val comp-val--neutral">Slightly small</div>
                 </div>
                 <div class="comp-row">
                     <div class="comp-method">Hamilton</div>
@@ -386,7 +386,7 @@ Party_C,15000</pre>
                     <div class="comp-val comp-val--neutral">Neutral</div>
                 </div>
             </div>
-            <div class="comp-note">Sainte-Laguë (used in Bundestag) and Huntington-Hill produce ±2 seat variance on the coalition dataset. Run both to compare.</div>
+            <div class="comp-note">On the coalition dataset, Sainte-Laguë (used for the Bundestag) and Huntington-Hill give exactly the same seats.</div>
         </div>
 
         <div class="infographic-card infographic-card--arrow">
@@ -411,7 +411,7 @@ Party_C,15000</pre>
                         <div class="criterion-desc">If A > B and B > C, then A > C must hold</div>
                     </div>
                 </div>
-                <div class="arrow-note">Test the IIA failure empirically: run the Strategic Voting scenarios with and without Green Party. The seat shift you observe is Arrow's theorem — not a bug, a mathematical inevitability.</div>
+                <div class="arrow-note">Arrow's theorem is about ranking candidates from voters' preference lists. This tool only turns vote totals into seats, so it does not test Arrow's conditions directly.</div>
             </div>
         </div>
 

@@ -24,10 +24,10 @@ const DATASETS = {
     basic: {
         name: 'Basic Proportional',
         seats: 100,
-        theory: 'Proportional Representation · Droop Quota',
+        theory: 'Proportional Representation',
         annotation: {
             title: 'Proportionality Benchmark',
-            body: 'This is the baseline scenario. All Δ values should fall within ±0.5% — the mathematical tolerance of Huntington-Hill given integer seat constraints. Any deviation beyond ±1% indicates a method bias. Compare this output against the IIA and Arrow scenarios to see how vote splitting distorts these clean proportions.'
+            body: 'This is the baseline scenario. Vote shares are whole percentages of 100 seats, so every Δ is 0.00%: seat shares match vote shares exactly. Use it as a reference point for the other scenarios.'
         },
         csv: `Group,Votes
 Party_A,390000
@@ -39,10 +39,10 @@ Party_D,130000`
     proportional: {
         name: 'EU Degressive Proportionality',
         seats: 705,
-        theory: 'Degressive Proportionality · Lisbon Treaty Art. 14(2)',
+        theory: 'Minimum-Seat Guarantee · Small Members',
         annotation: {
-            title: 'EU Parliament Model — 22 Member States',
-            body: 'Watch how Malta (120k votes) and Germany (12.5M votes) relate in seat allocation. Under strict proportionality, Malta would receive ~0.16% of seats — less than 2. Huntington-Hill\'s initial allocation of 1 seat per party before priority scoring prevents this collapse, approximating the Treaty\'s minimum-seat guarantee without a hard floor.'
+            title: 'EU-Style Model — 22 Member States',
+            body: 'Malta has 120k of 61.9M votes, about 0.19%. That is an exact share of 1.37 seats out of 705, and Huntington-Hill gives it 1. Every state with votes starts with one seat, so no member can be left with none. The real European Parliament uses a different formula, with a minimum of 6 seats per state.'
         },
         csv: `Group,Votes
 Germany,12500000
@@ -72,10 +72,10 @@ Malta,120000`
     condorcet: {
         name: 'Condorcet Winner',
         seats: 50,
-        theory: 'Condorcet Criterion · Pairwise Dominance',
+        theory: 'Similar-Sized Parties',
         annotation: {
-            title: 'Condorcet Winner Scenario',
-            body: 'Party A (34k votes) beats every other party in a head-to-head race, yet under plurality voting it risks losing to Party D (23k) due to vote splitting with B and C. Proportional allocation sidesteps this entirely — each party\'s seat share reflects aggregate vote totals, not pairwise tournament outcomes. This is why proportional systems are considered structurally fairer than plurality in multi-party elections.'
+            title: 'Four Similar-Sized Parties',
+            body: 'Party A leads with 34k of 100k votes; B, C and D have 21k to 23k each. Seat shares follow vote shares. Head-to-head (Condorcet) preferences cannot be read from vote totals, so this tool cannot check them.'
         },
         csv: `Group,Votes
 Party_A,34000
@@ -87,10 +87,10 @@ Party_D,23000`
     arrow: {
         name: "Arrow's Impossibility Stress Test",
         seats: 25,
-        theory: "Arrow's Impossibility Theorem · Maximum Instability Zone",
+        theory: 'Near-Ties · Rounding Stress Test',
         annotation: {
-            title: 'Maximum Instability — 5 Near-Equal Parties',
-            body: 'All five parties sit within 400 votes of each other. A ±1,000 vote swing in any single party produces measurable seat reallocation. This is Arrow\'s theorem made empirical: no deterministic method can produce stable, paradox-free outcomes in this configuration. Observe the Δ column closely — even Huntington-Hill, the most mathematically robust method, will show sensitivity here. This is not a bug. It is the fundamental limit of social choice theory.'
+            title: 'Five Near-Equal Parties',
+            body: 'All five parties sit within 400 votes of each other, and each gets 5 of the 25 seats. Moving 1,000 votes to or from any single party still leaves every party at 5. Try smaller seat counts to see where near-ties start to matter.'
         },
         csv: `Group,Votes
 Liberal_Progressive,20200
@@ -123,7 +123,7 @@ Agrarian_Union,41000`
         theory: 'Second-Preference Redistribution · IRV Approximation',
         annotation: {
             title: 'Round 2 — Redistributed Vote Totals',
-            body: 'Eliminated parties\' votes redistribute at 60% to ideologically adjacent parties (estimated second-preference model). National Front gains 38.6k, Social Alliance gains 39.6k, Centre Democrats gains 36.6k, Green Bloc gains 14.6k. Compare these seat totals directly with Round 1 — the seat shift across surviving parties is the measurable effect of preferential redistribution. This is the data your v0.2.0 run-off backend should compute automatically from ballot preference data.'
+            body: 'Vote totals for the four remaining parties. Compared with Round 1, National Front gains 38.6k, Social Alliance 39.6k, Centre Democrats 36.6k and Green Bloc 14.6k. Compare the seat totals with Round 1 to see the effect.'
         },
         csv: `Group,Votes
 National_Front,348600
@@ -135,10 +135,10 @@ Green_Bloc,131600`
     strategic: {
         name: 'Strategic Voting — Green Present',
         seats: 60,
-        theory: 'Independence of Irrelevant Alternatives · IIA Violation',
+        theory: 'Vote Splitting · Strategic Voting',
         annotation: {
-            title: 'IIA Violation — Green Party Present',
-            body: 'Run this, note Centre-Left\'s seat count. Then load the No-Green version. Centre-Left\'s allocation will change despite receiving zero new or lost direct votes. That change is Arrow\'s Independence of Irrelevant Alternatives failure — the presence of a third party alters the relative outcome between two other parties. This is not a flaw in Huntington-Hill specifically: it is mathematically unavoidable in any proportional system with vote splitting.'
+            title: 'Green Party Present',
+            body: 'Centre-Left gets 13 of 60 seats here. Load the Green-withdrawn version next: Green\'s 87k votes move to Centre-Left and Social Democrats, and Centre-Left rises to 17. The change comes from the moved votes, which is how vote splitting shapes results.'
         },
         csv: `Group,Votes
 Conservative_Bloc,245000
@@ -151,10 +151,10 @@ Social_Democrats,210000`
     strategic_no_green: {
         name: 'Strategic Voting — Green Withdrawn',
         seats: 60,
-        theory: 'IIA Counterfactual · Vote Transfer Model',
+        theory: 'Vote Transfer Model',
         annotation: {
-            title: 'IIA Baseline — Green Party Withdrawn',
-            body: 'Green Party\'s 87k votes redistributed: 52,200 (60%) to Centre-Left, 34,800 (40%) to Social Democrats — modelled on ideological proximity. Compare Centre-Left\'s seat count here against the Green-present scenario. The difference is the empirical IIA violation. In a real election, this incentivises strategic voting: Green supporters may defect to Centre-Left in Round 1 to avoid wasting their vote, which is exactly the behaviour Arrow\'s theorem predicts is structurally unavoidable.'
+            title: 'Green Party Withdrawn',
+            body: 'Green Party\'s 87k votes are redistributed: 52,200 (60%) to Centre-Left and 34,800 (40%) to Social Democrats. Centre-Left rises from 13 to 17 seats and Social Democrats from 14 to 16. This is why small-party supporters are sometimes tempted to vote strategically.'
         },
         csv: `Group,Votes
 Conservative_Bloc,245000
@@ -166,10 +166,10 @@ Social_Democrats,244800`
     large: {
         name: 'National Election — UK Scale',
         seats: 650,
-        theory: 'Electoral Threshold · O(n log n) Complexity',
+        theory: 'Scale · Performance',
         annotation: {
             title: '8.24M Ballots — Performance & Threshold Test',
-            body: 'Twelve parties. 8,240,000 total ballots. 650 seats (UK House of Commons scale). The O(n log n) heap-based Huntington-Hill implementation should complete this in under 2 seconds — the performance claim from the v0.1.0 specification. Watch for parties near the 5% threshold (412k votes): Welsh Progressive (180k) and Northern Alliance (160k) fall below it in a threshold-gated system. Without a threshold, both receive seats. This dataset lets you compare threshold vs. no-threshold outcomes directly.'
+            body: 'Twelve parties. 8,240,000 votes. 650 seats (UK House of Commons scale). In the project benchmark this takes about 0.17 ms: run time depends on parties and seats, not on how many votes there are. A 5% threshold (412k votes) would exclude seven of these parties; this tool applies none, so all twelve win seats.'
         },
         csv: `Group,Votes
 Labour_Alliance,2180000
@@ -189,24 +189,24 @@ Pirate_Party,190000`
     alabama: {
         name: 'Alabama Paradox',
         seats: 25,
-        theory: 'Alabama Paradox · House Monotonicity Proof',
+        theory: 'Alabama Paradox · House Monotonicity',
         annotation: {
             title: 'Alabama Paradox — Try 25 Seats, Then 26',
-            body: 'Run with 25 seats. Note Party C\'s allocation. Change the seat count to 26 and run again. Under Hamilton\'s method, Party C loses a seat when total seats increase — the Alabama Paradox, discovered in 1880 and used as the argument to replace Hamilton with Huntington-Hill in the US House in 1941. Huntington-Hill is monotone: Party C\'s count holds or increases. This monotonicity is proven by Balinski and Young (1982) and is the primary mathematical justification for adopting this method in any serious parliamentary system.'
+            body: 'Run with 25 seats, then 26. Under Hamilton\'s method, these votes give Party C 4 seats out of 25 but only 3 out of 26: the Alabama paradox, first noticed in 1880. Huntington-Hill keeps Party C at 4 in both. Balinski and Young (1982) proved that divisor methods like Huntington-Hill can never do this.'
         },
         csv: `Group,Votes
-Party_A,530
-Party_B,390
-Party_C,80`
+Party_A,525
+Party_B,335
+Party_C,140`
     },
 
     coalition: {
         name: 'Coalition Formation — Bundestag Model',
         seats: 598,
-        theory: 'Sperrklausel · Coalition Game Theory · Sainte-Laguë',
+        theory: 'Coalition Arithmetic',
         annotation: {
             title: 'German Bundestag — Coalition Arithmetic',
-            body: 'The 5% Sperrklausel (electoral threshold) eliminates Ecological Front (98k) and Seniors\' Party (112k). Majority threshold: 300 of 598 seats. Inspect the results to determine viable coalitions: CDU/CSU + SPD (grand coalition) vs. SPD + Greens + FDP (traffic light). Note: Sainte-Laguë (the actual Bundestag method) and Huntington-Hill produce ±2 seat variance on this dataset — significant enough to change which coalition has a majority. This dataset makes that comparison concrete.'
+            body: 'Majority: 300 of 598 seats. CDU/CSU + SPD get 318 seats, a majority; SPD + Greens + FDP get 292, short of one. A 5% threshold would exclude Ecological Front (98k) and Seniors\' Party (112k); this tool applies none, so they win 18 and 21 seats. Sainte-Laguë, the method used for the Bundestag, gives exactly the same seats on this data.'
         },
         csv: `Group,Votes
 CDU_CSU,980000
