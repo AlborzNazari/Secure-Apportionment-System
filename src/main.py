@@ -1,33 +1,8 @@
 import argparse
 import json
-import os
-import math  # In case needed, but apportionment handles it
-from cryptography.hazmat.primitives import padding
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
-from src.apportionment import huntington_hill, read_shares_from_csv  # Correct names!
-
-def generate_key():
-    return os.urandom(32)  # Secure 256-bit key
-
-def encrypt_data(data: bytes, key: bytes) -> bytes:
-    iv = os.urandom(16)
-    cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
-    encryptor = cipher.encryptor()
-    padder = padding.PKCS7(128).padder()
-    padded_data = padder.update(data) + padder.finalize()
-    encrypted = encryptor.update(padded_data) + encryptor.finalize()
-    return iv + encrypted
-
-def decrypt_data(encrypted_data: bytes, key: bytes) -> bytes:
-    iv = encrypted_data[:16]
-    encrypted = encrypted_data[16:]
-    cipher = Cipher(algorithms.AES(key), modes.CBC(iv))
-    decryptor = cipher.decryptor()
-    decrypted_padded = decryptor.update(encrypted) + decryptor.finalize()
-    unpadder = padding.PKCS7(128).unpadder()
-    data = unpadder.update(decrypted_padded) + unpadder.finalize()
-    return data
+from src.apportionment import huntington_hill, read_shares_from_csv
+from src.crypto import generate_key, encrypt_data, decrypt_data
 
 def main():
     parser = argparse.ArgumentParser(description="Secure Parliamentary Seat Apportionment")
