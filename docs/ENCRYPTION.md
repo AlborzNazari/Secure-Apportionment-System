@@ -1,3 +1,5 @@
+> **Outdated (November 2026):** this page describes the earlier AES-256-CBC design. The project now uses AES-256-GCM (authenticated encryption). See [HOW_IT_WORKS.md](HOW_IT_WORKS.md) for the current design.
+
 # AES-256-CBC Encryption Module
 
 This document provides detailed documentation for the AES-256-CBC encryption utility used in the **Secure Parliamentary Seat Apportionment System**. The module protects the confidentiality of sensitive vote data (e.g., vote shares or ballot counts) during storage or transmission, ensuring decryption only occurs in a trusted environment for seat apportionment.

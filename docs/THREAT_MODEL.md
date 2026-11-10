@@ -1,4 +1,4 @@
-
+> **Outdated (November 2026):** this page describes the earlier AES-256-CBC design. The project now uses AES-256-GCM (authenticated encryption). See [HOW_IT_WORKS.md](HOW_IT_WORKS.md) for the current design.
 
 # Threat Model
 
