@@ -159,7 +159,8 @@ docs/HOW_IT_WORKS.md   plain-language guide
 ## Troubleshooting
 
 - **`ModuleNotFoundError: No module named 'src'`**: run commands from the project folder, not from inside `src/`.
-- **`Apportionment Results: {}`**: the CSV could not be read. On Windows, PowerShell's `echo` can save files as UTF-16. Save the CSV as UTF-8, for example with Notepad.
+- **`Apportionment Results: {}`**: every row was skipped. Check that each row is `name,whole number`, separated by a comma (not a semicolon), and that the file is saved as UTF-8.
+- **PowerShell says running scripts is disabled** when you activate the virtual environment: run `Set-ExecutionPolicy -Scope Process Bypass` in that window, then activate again.
 
 ## More
 
